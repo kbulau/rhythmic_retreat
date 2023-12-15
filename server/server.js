@@ -141,21 +141,6 @@ app.get('/api/callback', async (req, res) => {
   }
 });
 
-// middleware to check if access token is still valid
-const accTokenRefresh = async (req, res, next) => {
-  if (req.cookies.accToken) return next();
-  else if (req.cookies.refToken) {
-    const newToken = await fetch('/api/refresh_token');
-    res.cookie('accToken', newToken.access_token, {
-      maxAge: 60 * 1000,
-    });
-    res.cookie('refToken', newToken.refresh_token);
-    return next();
-  } else {
-    return res.redirect('/api/token');
-  }
-};
-
 //endpoint to automatically refresh access token
 app.get('/api/refresh_token', async (req, res) => {
   const refresh_token = req.cookies.refToken;
@@ -197,9 +182,24 @@ app.get('/api/refresh_token', async (req, res) => {
   }
 });
 
-app.get('/api/topArtists', async (req, res) => {
-  const topArtists = await fetch();
-});
+// middleware to check if access token is still valid
+// const accTokenRefresh = async (req, res, next) => {
+//   if (req.cookies.accToken) return next();
+//   else if (req.cookies.refToken) {
+//     const newToken = await fetch('/api/refresh_token');
+//     res.cookie('accToken', newToken.access_token, {
+//       maxAge: 60 * 1000,
+//     });
+//     res.cookie('refToken', newToken.refresh_token);
+//     return next();
+//   } else {
+//     return res.redirect('/api/token');
+//   }
+// };
+
+// app.get('/api/topArtists', accTokenRefresh, async (req, res) => {
+//   const topArtists = await fetch();
+// });
 
 // catch-all route handler for any requests to an unknown route
 app.use('*', (req, res) => {
