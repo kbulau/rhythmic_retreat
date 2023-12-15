@@ -24,6 +24,11 @@ const PORT = 8080;
 // server static files
 app.use(express.static(path.join(__dirname, '../src/assets')));
 
+// catch-all route handler for any requests to an unknown route
+app.use('*', (req, res) => {
+  res.sendStatus(404);
+});
+
 // global error handler
 app.use((err, req, res) => {
   const defaultErr = {
