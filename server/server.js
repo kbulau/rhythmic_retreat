@@ -15,7 +15,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // configuration for backend
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cors({origin: 'http://localhost:8080'}));
+app.use(cors({origin: 'http://localhost:5173'}));
 app.use(cookieParser());
 
 // define PORT server will listen to
@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, '../src/assets')));
 
 // variables required for spotify OAuth
 const stateKey = 'spotify_auth_state';
-const redirect_uri = 'http://localhost:8080/api/callback';
+const redirect_uri = 'http://localhost:5173/api/callback';
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
@@ -39,7 +39,7 @@ const generateRandomString = (length) => {
 app.get('/api/token', (req, res) => {
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
-  const scope = 'user-read-private user-read-email';
+  const scope = 'user-top-read';
   res.redirect(
     'https://accounts.spotify.com/authorize?' +
       querystring.stringify({
@@ -109,7 +109,10 @@ app.get('/api/callback', async (req, res) => {
           Authorization: 'Bearer ' + access_token,
         },
       };
-
+      res.cookie('accToken', access_token, {
+        maxAge: 60 * 1000,
+      });
+      res.cookie('refToken', refresh_token);
       // use the access token to access the Spotify Web API
       const userResponse = await fetch(
         'https://api.spotify.com/v1/me',
@@ -118,15 +121,15 @@ app.get('/api/callback', async (req, res) => {
       const userData = await userResponse.json();
 
       console.log(userData);
-
+      res.redirect('/home');
       // we can also pass the token to the browser to make requests from there
-      res.redirect(
-        '/#' +
-          querystring.stringify({
-            access_token: access_token,
-            refresh_token: refresh_token,
-          })
-      );
+      // res.redirect(
+      //   '/#' +
+      //     querystring.stringify({
+      //       access_token: access_token,
+      //       refresh_token: refresh_token,
+      //     })
+      // );
     } catch (error) {
       res.redirect(
         '/#' +
@@ -138,9 +141,24 @@ app.get('/api/callback', async (req, res) => {
   }
 });
 
+// middleware to check if access token is still valid
+const accTokenRefresh = async (req, res, next) => {
+  if (req.cookies.accToken) return next();
+  else if (req.cookies.refToken) {
+    const newToken = await fetch('/api/refresh_token');
+    res.cookie('accToken', newToken.access_token, {
+      maxAge: 60 * 1000,
+    });
+    res.cookie('refToken', newToken.refresh_token);
+    return next();
+  } else {
+    return res.redirect('/api/token');
+  }
+};
+
 //endpoint to automatically refresh access token
-app.get('/refresh_token', async (req, res) => {
-  const refresh_token = req.query.refresh_token;
+app.get('/api/refresh_token', async (req, res) => {
+  const refresh_token = req.cookies.refToken;
   const authOptions = {
     method: 'POST',
     headers: {
@@ -177,6 +195,10 @@ app.get('/refresh_token', async (req, res) => {
   } catch (error) {
     res.status(500).send({error: 'Internal Server Error'});
   }
+});
+
+app.get('/api/topArtists', async (req, res) => {
+  const topArtists = await fetch();
 });
 
 // catch-all route handler for any requests to an unknown route
