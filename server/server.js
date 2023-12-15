@@ -24,6 +24,19 @@ const PORT = 8080;
 // server static files
 app.use(express.static(path.join(__dirname, '../src/assets')));
 
+// global error handler
+app.use((err, req, res) => {
+  const defaultErr = {
+    log: 'Express error handler caught unknown middleware error',
+    status: 400,
+    message: {err: 'an error occured'},
+  };
+  //Object.assign will create an object with the defaultErr object and replace anything with the given err returned from the middleware we invoke. IE. log, status, message.
+  const errorObj = Object.assign(defaultErr, err);
+  console.log(errorObj.log);
+  return res.sendStatus(errorObj.status).json(errorObj.message);
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
