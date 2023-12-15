@@ -24,6 +24,12 @@ const PORT = 8080;
 // server static files
 app.use(express.static(path.join(__dirname, '../src/assets')));
 
+// variables required for spotify OAuth
+const stateKey = 'spotify_auth_state';
+const redirect_uri = 'http://localhost:8080/api/callback';
+const client_id = process.env.SPOTIFY_CLIENT_ID;
+const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+
 // catch-all route handler for any requests to an unknown route
 app.use('*', (req, res) => {
   res.sendStatus(404);
