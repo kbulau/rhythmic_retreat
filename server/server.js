@@ -52,6 +52,92 @@ app.get('/api/token', (req, res) => {
   );
 });
 
+//gets access token from spotify to access their api
+app.get('/api/callback', async (req, res) => {
+  const code = req.query.code || null;
+  const state = req.query.state || null;
+  const storedState = req.cookies ? req.cookies[stateKey] : null;
+  console.log(state);
+  console.log(req.cookies[stateKey]);
+  if (state === null || state !== storedState) {
+    res.redirect(
+      '/#' +
+        querystring.stringify({
+          error: 'state_mismatch',
+        })
+    );
+  } else {
+    res.clearCookie(stateKey);
+
+    const authOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization:
+          'Basic ' +
+          Buffer.from(client_id + ':' + client_secret).toString('base64'),
+      },
+      body: new URLSearchParams({
+        code: code,
+        redirect_uri: redirect_uri,
+        grant_type: 'authorization_code',
+      }),
+    };
+
+    try {
+      const authResponse = await fetch(
+        'https://accounts.spotify.com/api/token',
+        authOptions
+      );
+      const authData = await authResponse.json();
+
+      if (!authResponse.ok) {
+        res.redirect(
+          '/#' +
+            querystring.stringify({
+              error: 'invalid_token',
+            })
+        );
+        return;
+      }
+
+      const access_token = authData.access_token;
+      const refresh_token = authData.refresh_token;
+
+      const userOptions = {
+        headers: {
+          Authorization: 'Bearer ' + access_token,
+        },
+      };
+
+      // use the access token to access the Spotify Web API
+      const userResponse = await fetch(
+        'https://api.spotify.com/v1/me',
+        userOptions
+      );
+      const userData = await userResponse.json();
+
+      console.log(userData);
+
+      // we can also pass the token to the browser to make requests from there
+      res.redirect(
+        '/#' +
+          querystring.stringify({
+            access_token: access_token,
+            refresh_token: refresh_token,
+          })
+      );
+    } catch (error) {
+      res.redirect(
+        '/#' +
+          querystring.stringify({
+            error: 'invalid_token',
+          })
+      );
+    }
+  }
+});
+
 // catch-all route handler for any requests to an unknown route
 app.use('*', (req, res) => {
   res.sendStatus(404);
