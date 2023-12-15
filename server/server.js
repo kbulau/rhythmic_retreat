@@ -177,7 +177,6 @@ app.get('/refresh_token', async (req, res) => {
   } catch (error) {
     res.status(500).send({error: 'Internal Server Error'});
   }
-  return next();
 });
 
 // catch-all route handler for any requests to an unknown route
