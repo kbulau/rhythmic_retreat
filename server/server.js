@@ -30,6 +30,28 @@ const redirect_uri = 'http://localhost:8080/api/callback';
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
+// generate random string for state to make it secure when requesting from spotify per guidelines
+const generateRandomString = (length) => {
+  return crypto.randomBytes(60).toString('hex').slice(0, length);
+};
+
+// redirect to spotify to get authorizaton from user
+app.get('/api/token', (req, res) => {
+  const state = generateRandomString(16);
+  res.cookie(stateKey, state);
+  const scope = 'user-read-private user-read-email';
+  res.redirect(
+    'https://accounts.spotify.com/authorize?' +
+      querystring.stringify({
+        response_type: 'code',
+        client_id: client_id,
+        scope: scope,
+        redirect_uri: redirect_uri,
+        state: state,
+      })
+  );
+});
+
 // catch-all route handler for any requests to an unknown route
 app.use('*', (req, res) => {
   res.sendStatus(404);
