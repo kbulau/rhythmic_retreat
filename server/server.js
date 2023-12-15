@@ -138,6 +138,48 @@ app.get('/api/callback', async (req, res) => {
   }
 });
 
+//endpoint to automatically refresh access token
+app.get('/refresh_token', async (req, res) => {
+  const refresh_token = req.query.refresh_token;
+  const authOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization:
+        'Basic ' +
+        Buffer.from(client_id + ':' + client_secret).toString('base64'),
+    },
+    body: new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token,
+    }),
+  };
+
+  try {
+    const authResponse = await fetch(
+      'https://accounts.spotify.com/api/token',
+      authOptions
+    );
+    const authData = await authResponse.json();
+
+    if (!authResponse.ok) {
+      res.status(authResponse.status).send(authData);
+      return;
+    }
+
+    const access_token = authData.access_token;
+    const new_refresh_token = authData.refresh_token;
+
+    res.send({
+      access_token: access_token,
+      refresh_token: new_refresh_token,
+    });
+  } catch (error) {
+    res.status(500).send({error: 'Internal Server Error'});
+  }
+  return next();
+});
+
 // catch-all route handler for any requests to an unknown route
 app.use('*', (req, res) => {
   res.sendStatus(404);
