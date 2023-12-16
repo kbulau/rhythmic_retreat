@@ -9,6 +9,9 @@ export default function Home() {
           <div className="text-slate-500"> mv</div>
           <div className="text-slate-500 pb-4">Artist</div>
           <h3 className="text-slate-300">Playlists</h3>
+          <div className="text-slate-500">Stations</div>
+          <div className="text-slate-500"> mv</div>
+          <div className="text-slate-500 pb-4">Artist</div>
         </div>
         <div>
           <header>Hello</header>
