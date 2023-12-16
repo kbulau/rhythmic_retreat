@@ -1,24 +1,30 @@
-// import {useState} from 'react';
-
-import './App.css';
-
-function App() {
+export default function App() {
   return (
     <>
-      <div>Rhythmic Retreat</div>
-      <div>
-        We use spotify to give you music suggestions, show you your tops
-        artists, and more! Just login below.
+      <div className="background h-screen pt-20">
+        <div className="bg-slate-400  bg-opacity-70 py-10 mx-96 rounded-3xl">
+          <div className="flex justify-center items-center gap-4 mb-[-20px]">
+            <i className="fa-solid fa-headphones fa-xl"></i>
+            <h1 className="font-[sans]">Rhythmic Retreat</h1>
+          </div>
+
+          <div className="">
+            <p className="font-[play] mb-4">
+              We use spotify to give you music suggestions, show you your top
+              artists,
+              <br />
+              and more! Just login below.
+            </p>
+          </div>
+          <button className="w-20 h-10 border-none rounded-lg bg-green-500">
+            <a
+              href="/api/token"
+              className="no-underline text-white font-bold text-base">
+              Login
+            </a>
+          </button>
+        </div>
       </div>
-      <div className=" border-stone-100 border-2">
-        {' '}
-        To access the app you must first login below
-      </div>
-      <button className="bg-black">
-        <a href="/api/token"> click me</a>
-      </button>
     </>
   );
 }
-
-export default App;
