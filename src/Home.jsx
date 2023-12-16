@@ -1,4 +1,5 @@
 export default function Home() {
+  fetch();
   return (
     <>
       <div className="grid grid-cols-12">
