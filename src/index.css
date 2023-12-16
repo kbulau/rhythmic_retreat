@@ -1,5 +1,5 @@
 /* @tailwind base; */
-@tailwind components;
+/* @tailwind components; */
 @tailwind utilities;
 :root {
   --play: 'Playfair Display', serif;
@@ -42,4 +42,11 @@ body {
   background-image: url(./assets/login-background.jpeg);
   background-repeat: none;
   background-position: center;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border: black solid 1px;
 }
