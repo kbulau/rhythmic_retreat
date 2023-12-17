@@ -24,11 +24,27 @@ export default function Home() {
     <>
       <div className="grid grid-cols-12">
         <div className="m-0 p-0 col-span-2 bg-slate-900 h-screen flex flex-col gap-4 pt-10 min-w-[150px]">
-          <div className="flex gap-4 items-center justify-center pb-4 sidebar">
+          <div className="flex gap-4 items-center justify-center pb-4 sidebar pt-2">
             <i className="fa-solid fa-headphones fa-sm"></i>
             <div className="text-slate-200 font-[sans]"> Rhythmic Retreat</div>
           </div>
+          <div className="text-slate-500 sidebarOptions hover:text-green-600">
+            Song Recs
+          </div>
+          <div className="text-slate-500 sidebarOptions hover:text-green-600">
+            Artist Recs
+          </div>
 
+          <div className="text-slate-500 sidebarOptions hover:text-green-600">
+            Top Playlists
+          </div>
+          <div className="text-slate-500 text-s sidebarOptions hover:text-green-600">
+            New Releases
+          </div>
+          <div className="text-slate-500 sidebarOptions hover:text-green-600 mb-4">
+            Featured Playlists
+          </div>
+          <h4 className="text-slate-300 m-0 p-0 ">Your History</h4>
           <div className="text-slate-500 text-s sidebarOptions hover:text-green-600">
             Top Artists
           </div>
@@ -38,16 +54,6 @@ export default function Home() {
           <div className="text-slate-500 sidebarOptions hover:text-green-600">
             Top Genres
           </div>
-          <div className="text-slate-500 sidebarOptions hover:text-green-600">
-            Song Recs
-          </div>
-          <div className="text-slate-500 mb-4 sidebarOptions hover:text-green-600">
-            Random Songs
-          </div>
-          <h3 className="text-slate-300 m-0 p-0 ">Playlists</h3>
-          <div className="text-slate-500">Stations</div>
-          <div className="text-slate-500"> mv</div>
-          <div className="text-slate-500">Artist</div>
         </div>
         <div className="col-span-10 bg-blue-950">
           <header className="flex justify-between h-16 items-center border-slate-600 mx-16">
