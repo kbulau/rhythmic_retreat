@@ -2,14 +2,14 @@ import {useState, useEffect} from 'react';
 export default function Home() {
   const [user, setUser] = useState('');
   const [profilePic, setProfilePic] = useState('');
-  //   const profile = fetch('/api/profile');
-  // .then((res) => {
-  //   return res.json();
-  // })
-  // .then((profileData) => {
-  //   console.log(profileData);
-  //   return profileData;
-  // });
+
+  const [tracks, setTracks] = useState([]);
+  const [trackArt, setTrackArt] = useState([]);
+  const [trackImg, setTrackImg] = useState([]);
+
+  const [artists, setArtists] = useState([]);
+  const [artistImg, setArtistImg] = useState([]);
+
   useEffect(() => {
     fetch('/api/profile').then((res) => {
       res.json().then((data) => {
@@ -19,22 +19,25 @@ export default function Home() {
       });
     });
   }, []);
-  console.log(user);
-  console.log(profilePic);
 
   return (
     <>
       <div className="grid grid-cols-12">
         <div className="m-0 p-0 col-span-2 bg-slate-900 h-screen flex flex-col gap-4 pt-10 min-w-[150px]">
-          <div className="text-slate-500 text-s">Browse</div>
-          <div className="text-slate-500">music</div>
+          <div className="flex gap-4 items-center justify-center pb-4">
+            <i className="fa-solid fa-headphones fa-sm"></i>
+            <div className="text-slate-200 font-[sans]"> Rhythmic Retreat</div>
+          </div>
+
+          <div className="text-slate-500 text-s">Top Artists</div>
+          <div className="text-slate-500">Top Tracks</div>
+          <div className="text-slate-500">Top Genres</div>
+          <div className="text-slate-500">Song Recs</div>
+          <div className="text-slate-500 mb-4">Random Songs</div>
+          <h3 className="text-slate-300 m-0 p-0 ">Playlists</h3>
           <div className="text-slate-500">Stations</div>
           <div className="text-slate-500"> mv</div>
-          <div className="text-slate-500 pb-4">Artist</div>
-          <h3 className="text-slate-300">Playlists</h3>
-          <div className="text-slate-500">Stations</div>
-          <div className="text-slate-500"> mv</div>
-          <div className="text-slate-500 pb-4">Artist</div>
+          <div className="text-slate-500">Artist</div>
         </div>
         <div className="col-span-10 bg-blue-950">
           <header className="flex justify-between h-16 items-center border-slate-600 mx-16">

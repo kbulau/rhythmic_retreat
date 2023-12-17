@@ -47,3 +47,7 @@ body {
 header {
   border-bottom: solid 2px;
 }
+
+[class*='fa-'] {
+  color: gray;
+}
