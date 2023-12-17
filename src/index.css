@@ -48,6 +48,10 @@ header {
   border-bottom: solid 2px;
 }
 
-[class*='fa-'] {
+.sidebar [class*='fa-'] {
   color: gray;
+}
+
+.sidebarOptions:hover {
+  border-right: 1px solid green;
 }
