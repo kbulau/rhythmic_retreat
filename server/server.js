@@ -1,14 +1,13 @@
 import 'dotenv/config';
 import path from 'path';
 import express from 'express';
-const app = express();
 import cors from 'cors';
 import crypto from 'crypto';
 import querystring from 'querystring';
 import {dirname} from 'path';
 import {fileURLToPath} from 'url';
 import cookieParser from 'cookie-parser';
-
+const app = express();
 // allows the usage of __dirname as it's not supported in es6 modules
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -201,9 +200,70 @@ app.get('/api/profile', async (req, res) => {
   console.log(res.locals.data);
   res.status(200).json(res.locals.data);
 });
-// app.get('/api/topArtists', accTokenRefresh, async (req, res) => {
-//   const topArtists = await fetch();
-// });
+
+app.get('/api/topArtists', async (req, res) => {
+  const userOptions = {
+    headers: {
+      Authorization: 'Bearer ' + req.cookies.accToken,
+    },
+  };
+  const apiData = await fetch(
+    'https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=10',
+    userOptions
+  );
+  const data = await apiData.json();
+  const topArtists = data.items;
+  const artistName = [];
+  const artistImages = [];
+  console.log(topArtists);
+  for (let i = 0; i < topArtists.length; i++) {
+    artistName.push(topArtists[i].name);
+    artistImages.push(topArtists[i].images[0].url);
+  }
+  console.log('artist Names' + artistName, 'artist Images ' + artistImages);
+  const genres = {};
+  for (let i = 0; i < topArtists.length; i++) {
+    for (let j = 0; j < topArtists[i].genres.length; j++) {
+      if (topArtists[i].genres[j] in genres) {
+        genres[topArtists[i].genres[j]] = genres[topArtists[i].genres[j]] + 1;
+      } else {
+        genres[topArtists[i].genres[j]] = 1;
+      }
+    }
+  }
+  const genresSorted = Object.keys(genres).sort((a, b) => genres[b] - [a]);
+  const genreDataSorted = Object.values(genres).sort((a, b) => b - a);
+  const topGenres = [];
+  const topGenreDataSorted = [];
+  for (let i = 0; i < 5; i++) {
+    topGenres.push(genresSorted[i]);
+    topGenreDataSorted.push(genreDataSorted[i]);
+  }
+
+  res.locals.topArtists = topArtists;
+  res.locals.artistName = artistName;
+  res.locals.artistImages = artistImages;
+  res.locals.topGenres = topGenres;
+  res.locals.topGenreDataSorted = topGenreDataSorted;
+  console.log(res.locals);
+  res.status(200).json(res.locals);
+});
+
+app.get('/api/topTracks', async (req, res) => {
+  const userOptions = {
+    headers: {
+      Authorization: 'Bearer ' + req.cookies.accToken,
+    },
+  };
+  const apiData = await fetch(
+    'https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=10',
+    userOptions
+  );
+  const topTracks = await apiData.json();
+  res.locals.topArtists = topTracks;
+  console.log(topTracks);
+  res.status(200).json(res.locals.topTracks);
+});
 
 // catch-all route handler for any requests to an unknown route
 app.use('*', (req, res) => {
