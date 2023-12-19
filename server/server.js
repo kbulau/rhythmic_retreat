@@ -56,8 +56,6 @@ app.get('/api/callback', async (req, res) => {
   const code = req.query.code || null;
   const state = req.query.state || null;
   const storedState = req.cookies ? req.cookies[stateKey] : null;
-  console.log(state);
-  console.log(req.cookies[stateKey]);
   if (state === null || state !== storedState) {
     res.redirect(
       '/#' +
@@ -197,7 +195,6 @@ app.get('/api/profile', async (req, res) => {
   );
   const response = await userResponse.json();
   res.locals.data = response;
-  console.log(res.locals.data);
   res.status(200).json(res.locals.data);
 });
 
@@ -277,6 +274,32 @@ app.get('/api/topTracks', async (req, res) => {
   res.locals.topTrackNames = topTrackNames;
   console.log(res.locals);
   res.status(200).json(res.locals);
+});
+
+app.get('/api/featuredPlaylists', async (req, res) => {
+  const userOptions = {
+    headers: {
+      Authorization: 'Bearer ' + req.cookies.accToken,
+    },
+  };
+  const response = await fetch(
+    'https://api.spotify.com/v1/browse/featured-playlists?country=US&limit=10',
+    userOptions
+  );
+  const apiData = await response.json();
+  const featuredPlaylists = apiData.playlists.items;
+  const featPlaylistName = [];
+  const featPlaylistImg = [];
+  const featPlaylistHref = [];
+  for (let i = 0; i < featuredPlaylists.length; i++) {
+    featPlaylistName.push(featuredPlaylists[i].name);
+    featPlaylistImg.push(featuredPlaylists[i].images[0].url);
+    featPlaylistHref.push(featuredPlaylists[i].href);
+  }
+  res.locals.featPlaylistName = featPlaylistName;
+  res.locals.featPlaylistImg = featPlaylistImg;
+  res.locals.PlaylistHref = featPlaylistHref;
+  return res.sendStatus(200).json(res.locals);
 });
 
 // catch-all route handler for any requests to an unknown route

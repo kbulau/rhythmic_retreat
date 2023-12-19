@@ -41,7 +41,9 @@ export default function Home() {
           <div className="text-slate-500 text-s sidebarOptions hover:text-green-600">
             New Releases
           </div>
-          <div className="text-slate-500 sidebarOptions hover:text-green-600 mb-4">
+          <div
+            className="text-slate-500 sidebarOptions hover:text-green-600 mb-4"
+            onClick={() => fetch('/api/featuredPlaylists')}>
             Featured Playlists
           </div>
           <h4 className="text-slate-300 m-0 p-0 ">Your History</h4>
