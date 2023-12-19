@@ -28,7 +28,9 @@ export default function Home() {
             <i className="fa-solid fa-headphones fa-sm"></i>
             <div className="text-slate-200 font-[sans]"> Rhythmic Retreat</div>
           </div>
-          <div className="text-slate-500 sidebarOptions hover:text-green-600">
+          <div
+            className="text-slate-500 sidebarOptions hover:text-green-600"
+            onClick={() => fetch('/api/songRecs')}>
             Song Recs
           </div>
           <div

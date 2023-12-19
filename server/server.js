@@ -265,9 +265,6 @@ app.get('/api/topTracks', async (req, res) => {
     topTracksArtistNames.push(topTracks[i].artists[0].name);
     topTrackNames.push(topTracks[i].name);
   }
-  console.log(topTracksAlbumImg);
-  console.log(topTracksArtistNames);
-  console.log(topTrackNames);
   res.locals.topTracksAlbumImg = topTracksAlbumImg;
   res.locals.topTracksArtistNames = topTracksArtistNames;
   res.locals.topTrackNames = topTrackNames;
@@ -324,10 +321,10 @@ app.get('/api/newReleases', async (req, res) => {
     newReleaseNames.push(newReleases[i].name);
     newReleaseHref.push(newReleases[i].href);
   }
-  console.log(newReleaseHref, newReleaseImgs, newReleaseNames);
   res.locals.newReleaseImgs = newReleaseImgs;
   res.locals.newReleaseNames = newReleaseNames;
   res.locals.newReleaseHref = newReleaseHref;
+  console.log(res.locals);
   res.status(200).json(res.locals);
 });
 
@@ -381,8 +378,37 @@ app.get('/api/artistRecs', async (req, res) => {
   }
   res.locals.relArtistImgs = relArtistImgs;
   res.locals.relArtistNames = relArtistNames;
+  console.log(res.locals);
   res.status(200).json(res.locals);
 });
+
+app.get('/api/songRecs', async (req, res) => {
+  const userOptions = {
+    headers: {
+      Authorization: 'Bearer ' + req.cookies.accToken,
+    },
+  };
+  const response = await fetch(
+    'https://api.spotify.com/v1/recommendations?limit=10&seed_tracks=6IPwKM3fUUzlElbvKw2sKl',
+    userOptions
+  );
+  const apiData = await response.json();
+  const songRecs = apiData.tracks;
+  const songRecImg = [];
+  const songRecArtistName = [];
+  const songRecName = [];
+  for (let i = 0; i < songRecs.length; i++) {
+    songRecImg.push(songRecs[i].album.images[0].url);
+    songRecArtistName.push(songRecs[i].artists[0].name);
+    songRecName.push(songRecs[i].name);
+  }
+  res.locals.songRecImg = songRecImg;
+  res.locals.songRecArtistName = songRecArtistName;
+  res.locals.songRecName = songRecName;
+  console.log(res.locals);
+  res.status(200).json(res.locals);
+});
+
 // catch-all route handler for any requests to an unknown route
 app.use('*', (req, res) => {
   res.sendStatus(404);
