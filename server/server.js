@@ -316,14 +316,18 @@ app.get('/api/newReleases', async (req, res) => {
   const newReleaseImgs = [];
   const newReleaseNames = [];
   const newReleaseHref = [];
+  const newReleaseArtistName = [];
   for (let i = 0; i < newReleases.length; i++) {
     newReleaseImgs.push(newReleases[i].images[0].url);
     newReleaseNames.push(newReleases[i].name);
     newReleaseHref.push(newReleases[i].href);
+    newReleaseArtistName.push(newReleases[i].artists[0].name);
   }
-  res.locals.newReleaseImgs = newReleaseImgs;
+  res.locals.newReleaseArtistName = newReleaseArtistName;
   res.locals.newReleaseNames = newReleaseNames;
+  res.locals.newReleaseImgs = newReleaseImgs;
   res.locals.newReleaseHref = newReleaseHref;
+
   console.log(res.locals);
   res.status(200).json(res.locals);
 });
