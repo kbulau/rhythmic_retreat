@@ -100,9 +100,9 @@ app.get('/api/callback', async (req, res) => {
 
       const access_token = authData.access_token;
       const refresh_token = authData.refresh_token;
-
+      console.log('access Token', access_token);
       res.cookie('accToken', access_token, {
-        maxAge: 60 * 1000,
+        maxAge: 1000 * 60 * 60,
       });
       res.cookie('refToken', refresh_token);
       // use the access token to access the Spotify Web API
@@ -127,62 +127,64 @@ app.get('/api/callback', async (req, res) => {
   }
 });
 
-// //endpoint to automatically refresh access token
-// app.get('/api/refresh_token', async (req, res, next) => {
-//   const refresh_token = req.cookies.refToken;
-//   if (req.cookies.accToken) return next();
-//   const authOptions = {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/x-www-form-urlencoded',
-//       Authorization:
-//         'Basic ' +
-//         Buffer.from(client_id + ':' + client_secret).toString('base64'),
-//     },
-//     body: new URLSearchParams({
-//       grant_type: 'refresh_token',
-//       refresh_token: refresh_token,
-//     }),
-//   };
+//endpoint to automatically refresh access token
+app.get('/api/refresh_token', async (req, res, next) => {
+  const refresh_token = req.cookies.refToken;
+  if (req.cookies.accToken) return next();
+  const authOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization:
+        'Basic ' +
+        new Buffer.from(client_id + ':' + client_secret).toString('base64'),
+    },
+    body: new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token,
+    }),
+  };
+  try {
+    const authResponse = await fetch(
+      'https://accounts.spotify.com/api/token',
+      authOptions
+    );
+    const authData = await authResponse.json();
 
-//   try {
-//     const authResponse = await fetch(
-//       'https://accounts.spotify.com/api/token',
-//       authOptions
-//     );
-//     const authData = await authResponse.json();
+    // if (!authResponse.ok) {
+    //   res.status(authResponse.status).send(authData);
+    //   return;
+    // }
 
-//     if (!authResponse.ok) {
-//       res.status(authResponse.status).send(authData);
-//       return;
-//     }
+    const access_token = authData.access_token;
 
-//     const access_token = authData.access_token;
-//     const new_refresh_token = authData.refresh_token;
-
-//     res.send({
-//       access_token: access_token,
-//       refresh_token: new_refresh_token,
-//     });
-//   } catch (error) {
-//     res.status(500).send({error: 'Internal Server Error'});
-//   }
-// });
+    res.send({
+      access_token: access_token,
+    });
+  } catch (error) {
+    res.status(500).send({error: 'Internal Server Error'});
+  }
+});
 
 // middleware to check if access token is still valid
-// const accTokenRefresh = async (req, res, next) => {
-//   if (req.cookies.accToken) return next();
-//   else if (req.cookies.refToken) {
-//     const newToken = await fetch('/api/refresh_token');
-//     res.cookie('accToken', newToken.access_token, {
-//       maxAge: 60 * 1000,
-//     });
-//     res.cookie('refToken', newToken.refresh_token);
-//     return next();
-//   } else {
-//     return res.redirect('/api/token');
-//   }
-// };
+const accTokenRefresh = async (req, res, next) => {
+  if (req.cookies.accToken) return next();
+  else if (req.cookies.refToken && req.cookies.refToken !== undefined) {
+    console.log(req.cookies.refToken);
+    const newToken = await fetch('http://localhost:5173/api/refresh_token', {
+      headers: {
+        Cookie: `refToken=${req.cookies.refToken}`,
+      },
+    });
+    res.cookie('accToken', newToken.access_token, {
+      maxAge: 60 * 1000,
+    });
+    return next();
+  } else {
+    return res.redirect('/api/token');
+  }
+};
+
 app.get('/api/profile', async (req, res) => {
   const userOptions = {
     headers: {
@@ -198,7 +200,7 @@ app.get('/api/profile', async (req, res) => {
   res.status(200).json(res.locals.data);
 });
 
-app.get('/api/topArtists', async (req, res) => {
+app.get('/api/topArtists', accTokenRefresh, async (req, res) => {
   const userOptions = {
     headers: {
       Authorization: 'Bearer ' + req.cookies.accToken,
@@ -209,6 +211,7 @@ app.get('/api/topArtists', async (req, res) => {
     userOptions
   );
   const data = await apiData.json();
+  console.log(data);
   const topArtists = data.items;
   const artistName = [];
   const artistImages = [];
@@ -245,7 +248,7 @@ app.get('/api/topArtists', async (req, res) => {
   res.status(200).json(res.locals);
 });
 
-app.get('/api/topTracks', async (req, res) => {
+app.get('/api/topTracks', accTokenRefresh, async (req, res) => {
   const userOptions = {
     headers: {
       Authorization: 'Bearer ' + req.cookies.accToken,
@@ -272,7 +275,7 @@ app.get('/api/topTracks', async (req, res) => {
   res.status(200).json(res.locals);
 });
 
-app.get('/api/featuredPlaylists', async (req, res) => {
+app.get('/api/featuredPlaylists', accTokenRefresh, async (req, res) => {
   const userOptions = {
     headers: {
       Authorization: 'Bearer ' + req.cookies.accToken,
@@ -284,7 +287,6 @@ app.get('/api/featuredPlaylists', async (req, res) => {
   );
   const apiData = await response.json();
   const featuredPlaylists = apiData.playlists.items;
-  console.log(featuredPlaylists);
   const featPlaylistName = [];
   const featPlaylistImg = [];
   const featPlaylistHref = [];
@@ -301,7 +303,7 @@ app.get('/api/featuredPlaylists', async (req, res) => {
   return res.status(200).json(res.locals);
 });
 
-app.get('/api/newReleases', async (req, res) => {
+app.get('/api/newReleases', accTokenRefresh, async (req, res) => {
   const userOptions = {
     headers: {
       Authorization: 'Bearer ' + req.cookies.accToken,
@@ -332,7 +334,7 @@ app.get('/api/newReleases', async (req, res) => {
   res.status(200).json(res.locals);
 });
 
-app.get('/api/hotHits', async (req, res) => {
+app.get('/api/hotHits', accTokenRefresh, async (req, res) => {
   const userOptions = {
     headers: {
       Authorization: 'Bearer ' + req.cookies.accToken,
@@ -362,7 +364,7 @@ app.get('/api/hotHits', async (req, res) => {
   res.status(200).json(res.locals);
 });
 
-app.get('/api/artistRecs', async (req, res) => {
+app.get('/api/artistRecs', accTokenRefresh, async (req, res) => {
   const userOptions = {
     headers: {
       Authorization: 'Bearer ' + req.cookies.accToken,
@@ -386,7 +388,7 @@ app.get('/api/artistRecs', async (req, res) => {
   res.status(200).json(res.locals);
 });
 
-app.get('/api/songRecs', async (req, res) => {
+app.get('/api/songRecs', accTokenRefresh, async (req, res) => {
   const userOptions = {
     headers: {
       Authorization: 'Bearer ' + req.cookies.accToken,
