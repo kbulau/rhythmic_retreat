@@ -63,17 +63,6 @@ export default function Home() {
     });
   }, []);
 
-  // can add feature to change based on selected country, give a list of countries
-  useEffect(() => {
-    fetch('/api/featuredPlaylists').then((res) => {
-      res.json().then((apiData) => {
-        setFeatPlaylistHref(apiData.featPlaylistHref);
-        setFeatPlaylistImg(apiData.featPlaylistImg);
-        setFeatPlaylistName(apiData.featPlaylistName);
-      });
-    });
-  }, []);
-
   return (
     <>
       <div className="grid grid-cols-12">
