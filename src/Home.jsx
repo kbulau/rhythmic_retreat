@@ -35,8 +35,10 @@ export default function Home() {
             Artist Recs
           </div>
 
-          <div className="text-slate-500 sidebarOptions hover:text-green-600">
-            Top Playlists
+          <div
+            className="text-slate-500 sidebarOptions hover:text-green-600"
+            onClick={() => fetch('/api/hotHits')}>
+            Top Hits
           </div>
           <div
             className="text-slate-500 text-s sidebarOptions hover:text-green-600"
