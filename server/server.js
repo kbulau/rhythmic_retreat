@@ -100,9 +100,10 @@ app.get('/api/callback', async (req, res) => {
 
       const access_token = authData.access_token;
       const refresh_token = authData.refresh_token;
-      console.log('access Token', access_token);
+      console.log('access Token', access_token), {httpOnly: true};
       res.cookie('accToken', access_token, {
         maxAge: 1000 * 60 * 60,
+        httpOnly: true,
       });
       res.cookie('refToken', refresh_token);
       // use the access token to access the Spotify Web API
@@ -211,11 +212,9 @@ app.get('/api/topArtists', accTokenRefresh, async (req, res) => {
     userOptions
   );
   const data = await apiData.json();
-  console.log(data);
   const topArtists = data.items;
   const artistName = [];
   const artistImages = [];
-  console.log(topArtists);
   for (let i = 0; i < topArtists.length; i++) {
     artistName.push(topArtists[i].name);
     artistImages.push(topArtists[i].images[0].url);
@@ -239,7 +238,6 @@ app.get('/api/topArtists', accTokenRefresh, async (req, res) => {
     topGenreDataSorted.push(genreDataSorted[i]);
   }
 
-  res.locals.topArtists = topArtists;
   res.locals.artistName = artistName;
   res.locals.artistImages = artistImages;
   res.locals.topGenres = topGenres;
