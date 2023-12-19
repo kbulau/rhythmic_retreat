@@ -259,10 +259,24 @@ app.get('/api/topTracks', async (req, res) => {
     'https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=10',
     userOptions
   );
-  const topTracks = await apiData.json();
-  res.locals.topArtists = topTracks;
-  console.log(topTracks);
-  res.status(200).json(res.locals.topTracks);
+  const data = await apiData.json();
+  const topTracks = data.items;
+  const topTracksAlbumImg = [];
+  const topTracksArtistNames = [];
+  const topTrackNames = [];
+  for (let i = 0; i < topTracks.length; i++) {
+    topTracksAlbumImg.push(topTracks[i].album.images[1].url);
+    topTracksArtistNames.push(topTracks[i].artists[0].name);
+    topTrackNames.push(topTracks[i].name);
+  }
+  console.log(topTracksAlbumImg);
+  console.log(topTracksArtistNames);
+  console.log(topTrackNames);
+  res.locals.topTracksAlbumImg = topTracksAlbumImg;
+  res.locals.topTracksArtistNames = topTracksArtistNames;
+  res.locals.topTrackNames = topTrackNames;
+  console.log(res.locals);
+  res.status(200).json(res.locals);
 });
 
 // catch-all route handler for any requests to an unknown route
