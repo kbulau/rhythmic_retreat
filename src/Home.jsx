@@ -43,6 +43,36 @@ export default function Home() {
       });
     });
   }, []);
+  // set users top information in the same as it will change based upon the length short, med, long.
+  useEffect(() => {
+    fetch('/api/topArtists').then((res) => {
+      res.json().then((apiData) => {
+        setTopArtistImg(apiData.artistImages);
+        setTopArtists(apiData.artistName);
+        setTopGenres(apiData.topGenres);
+        setTopGenreData(apiData.topGenreDataSorted);
+      });
+    });
+
+    fetch('/api/topTracks').then((res) => {
+      res.json().then((apiData) => {
+        setTopTrackArtists(apiData.topTrackArtistNames);
+        setTopTrackNames(apiData.topTrackNames);
+        setTopTrackImgs(apiData.topTracksAlbumImg);
+      });
+    });
+  }, []);
+
+  // can add feature to change based on selected country, give a list of countries
+  useEffect(() => {
+    fetch('/api/featuredPlaylists').then((res) => {
+      res.json().then((apiData) => {
+        setFeatPlaylistHref(apiData.featPlaylistHref);
+        setFeatPlaylistImg(apiData.featPlaylistImg);
+        setFeatPlaylistName(apiData.featPlaylistName);
+      });
+    });
+  }, []);
 
   return (
     <>
