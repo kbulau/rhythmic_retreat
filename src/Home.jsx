@@ -75,6 +75,19 @@ export default function Home() {
     });
   }, []);
 
+  // can get hot hits or top hits for country, but need to get featured playlists for a country
+  // parse the data for titles containing top and hits or hot and hits and then ran that through the hot hits endpoint
+  useEffect(() => {
+    fetch('/api/hotHits').then((res) => {
+      res.json().then((apiData) => {
+        setHotHitAlbumImgs(apiData.hotHitAlbumImgs);
+        setHotHitArtists(apiData.hotHitArtists);
+        setHotHitTrackName(apiData.hotHitTrackName);
+        setHotHitPreview(apiData.hotHitPreview);
+      });
+    });
+  }, []);
+
   return (
     <>
       <div className="grid grid-cols-12">
