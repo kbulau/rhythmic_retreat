@@ -29,13 +29,13 @@ const redirect_uri = 'http://localhost:5173/api/callback';
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
-// generate random string for state to make it secure when requesting from spotify per guidelines
-const generateRandomString = (length) => {
-  return crypto.randomBytes(60).toString('hex').slice(0, length);
-};
-
 // redirect to spotify to get authorizaton from user
 app.get('/api/token', (req, res) => {
+  // generate random string for state to make it secure when requesting from spotify per guidelines
+
+  const generateRandomString = (length) => {
+    return crypto.randomBytes(60).toString('hex').slice(0, length);
+  };
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
   const scope = 'user-top-read';
