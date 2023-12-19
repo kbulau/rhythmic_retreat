@@ -17,9 +17,9 @@ export default function Home() {
   const [featPlaylistHref, setFeatPlaylistHref] = useState([]);
 
   const [newReleaseArtists, setNewReleaseArtists] = useState([]);
-  const [newReleaseAlbum, setNewReleaseAlbum] = useState([]);
+  const [newReleaseAlbums, setNewReleaseAlbums] = useState([]);
   const [newReleaseImgs, setNewReleaseImgs] = useState([]);
-  const [newReleaseHref, setNewReleaseHref] = useState([]);
+  const [newReleaseHrefs, setNewReleaseHrefs] = useState([]);
 
   const [hotHitArtists, setHotHitArtists] = useState([]);
   const [hotHitAlbumImgs, setHotHitAlbumImgs] = useState([]);
@@ -75,6 +75,18 @@ export default function Home() {
     });
   }, []);
 
+  // can get new releases for a country,
+  useEffect(() => {
+    fetch('/api/newReleases').then((res) => {
+      res.json().then((apiData) => {
+        setNewReleaseAlbums(apiData.newReleaseAlbums);
+        setNewReleaseArtists(apiData.newReleaseArtistName);
+        setNewReleaseImgs(apiData.newReleaseImgs);
+        setNewReleaseHrefs(apiData.newReleaseHref);
+      });
+    });
+  }, []);
+
   // can get hot hits or top hits for country, but need to get featured playlists for a country
   // parse the data for titles containing top and hits or hot and hits and then ran that through the hot hits endpoint
   useEffect(() => {
@@ -87,6 +99,7 @@ export default function Home() {
       });
     });
   }, []);
+
   // need to add another endpoint to look up artists and allow people to choose
   useEffect(() => {
     fetch('/api/artistRecs').then((res) => {
