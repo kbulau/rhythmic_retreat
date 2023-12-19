@@ -38,7 +38,9 @@ export default function Home() {
           <div className="text-slate-500 sidebarOptions hover:text-green-600">
             Top Playlists
           </div>
-          <div className="text-slate-500 text-s sidebarOptions hover:text-green-600">
+          <div
+            className="text-slate-500 text-s sidebarOptions hover:text-green-600"
+            onClick={() => fetch('/api/newReleases')}>
             New Releases
           </div>
           <div

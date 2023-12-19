@@ -302,6 +302,33 @@ app.get('/api/featuredPlaylists', async (req, res) => {
   return res.sendStatus(200).json(res.locals);
 });
 
+app.get('/api/newReleases', async (req, res) => {
+  const userOptions = {
+    headers: {
+      Authorization: 'Bearer ' + req.cookies.accToken,
+    },
+  };
+  const response = await fetch(
+    'https://api.spotify.com/v1/browse/new-releases?country=US&limit=10',
+    userOptions
+  );
+  const apiData = await response.json();
+  const newReleases = apiData.albums.items;
+  const newReleaseImgs = [];
+  const newReleaseNames = [];
+  const newReleaseHref = [];
+  for (let i = 0; i < newReleases.length; i++) {
+    newReleaseImgs.push(newReleases[i].images[0].url);
+    newReleaseNames.push(newReleases[i].name);
+    newReleaseHref.push(newReleases[i].href);
+  }
+  console.log(newReleaseHref, newReleaseImgs, newReleaseNames);
+  res.locals.newReleaseImgs = newReleaseImgs;
+  res.locals.newReleaseNames = newReleaseNames;
+  res.locals.newReleaseHref = newReleaseHref;
+  res.status(200).json(res.locals);
+});
+
 // catch-all route handler for any requests to an unknown route
 app.use('*', (req, res) => {
   res.sendStatus(404);
