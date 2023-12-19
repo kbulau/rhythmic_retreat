@@ -361,6 +361,28 @@ app.get('/api/hotHits', async (req, res) => {
   res.status(200).json(res.locals);
 });
 
+app.get('/api/artistRecs', async (req, res) => {
+  const userOptions = {
+    headers: {
+      Authorization: 'Bearer ' + req.cookies.accToken,
+    },
+  };
+  const response = await fetch(
+    'https://api.spotify.com/v1/artists/78rUTD7y6Cy67W1RVzYs7t/related-artists',
+    userOptions
+  );
+  const apiData = await response.json();
+  const relArtists = apiData.artists;
+  const relArtistImgs = [];
+  const relArtistNames = [];
+  for (let i = 0; i < relArtists.length; i++) {
+    relArtistImgs.push(relArtists[i].images[0].url);
+    relArtistNames.push(relArtists[i].name);
+  }
+  res.locals.relArtistImgs = relArtistImgs;
+  res.locals.relArtistNames = relArtistNames;
+  res.status(200).json(res.locals);
+});
 // catch-all route handler for any requests to an unknown route
 app.use('*', (req, res) => {
   res.sendStatus(404);
