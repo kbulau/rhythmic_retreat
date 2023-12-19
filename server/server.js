@@ -30,7 +30,7 @@ const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
 // redirect to spotify to get authorizaton from user
-app.get('/api/token', (req, res) => {
+app.get('/api/token', (_req, res) => {
   // generate random string for state to make it secure when requesting from spotify per guidelines
 
   const generateRandomString = (length) => {
@@ -414,12 +414,12 @@ app.get('/api/songRecs', accTokenRefresh, async (req, res) => {
 });
 
 // catch-all route handler for any requests to an unknown route
-app.use('*', (req, res) => {
+app.use('*', (_req, res) => {
   res.sendStatus(404);
 });
 
 // global error handler
-app.use((err, req, res) => {
+app.use((err, _req, res) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
     status: 400,
