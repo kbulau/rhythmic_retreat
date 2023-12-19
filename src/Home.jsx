@@ -87,6 +87,26 @@ export default function Home() {
       });
     });
   }, []);
+  // need to add another endpoint to look up artists and allow people to choose
+  useEffect(() => {
+    fetch('/api/artistRecs').then((res) => {
+      res.json().then((apiData) => {
+        setRelArtistImgs(apiData.relArtistImgs);
+        setRelArtistNames(apiData.relArtistNames);
+      });
+    });
+  }, []);
+
+  // need to modify endpoint to take custom parameters like artist, genres, and tracks
+  useEffect(() => {
+    fetch('/api/songRecs').then((res) => {
+      res.json().then((apiData) => {
+        setSongRecArtistName(apiData.songRecArtistName);
+        setSongRecImg(apiData.songRecImg);
+        setSongRecName(apiData.songRecName);
+      });
+    });
+  }, []);
 
   return (
     <>
