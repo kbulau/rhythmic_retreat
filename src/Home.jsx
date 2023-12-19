@@ -38,7 +38,7 @@ export default function Home() {
           <div
             className="text-slate-500 sidebarOptions hover:text-green-600"
             onClick={() => fetch('/api/hotHits')}>
-            Top Hits
+            Hot Hits
           </div>
           <div
             className="text-slate-500 text-s sidebarOptions hover:text-green-600"

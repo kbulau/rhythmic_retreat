@@ -217,7 +217,6 @@ app.get('/api/topArtists', async (req, res) => {
     artistName.push(topArtists[i].name);
     artistImages.push(topArtists[i].images[0].url);
   }
-  console.log('artist Names' + artistName, 'artist Images ' + artistImages);
   const genres = {};
   for (let i = 0; i < topArtists.length; i++) {
     for (let j = 0; j < topArtists[i].genres.length; j++) {
@@ -288,6 +287,7 @@ app.get('/api/featuredPlaylists', async (req, res) => {
   );
   const apiData = await response.json();
   const featuredPlaylists = apiData.playlists.items;
+  console.log(featuredPlaylists);
   const featPlaylistName = [];
   const featPlaylistImg = [];
   const featPlaylistHref = [];
@@ -299,7 +299,9 @@ app.get('/api/featuredPlaylists', async (req, res) => {
   res.locals.featPlaylistName = featPlaylistName;
   res.locals.featPlaylistImg = featPlaylistImg;
   res.locals.PlaylistHref = featPlaylistHref;
-  return res.sendStatus(200).json(res.locals);
+  console.log(res.locals);
+
+  return res.status(200).json(res.locals);
 });
 
 app.get('/api/newReleases', async (req, res) => {
@@ -326,6 +328,36 @@ app.get('/api/newReleases', async (req, res) => {
   res.locals.newReleaseImgs = newReleaseImgs;
   res.locals.newReleaseNames = newReleaseNames;
   res.locals.newReleaseHref = newReleaseHref;
+  res.status(200).json(res.locals);
+});
+
+app.get('/api/hotHits', async (req, res) => {
+  const userOptions = {
+    headers: {
+      Authorization: 'Bearer ' + req.cookies.accToken,
+    },
+  };
+  const response = await fetch(
+    'https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M/tracks?limit=10',
+    userOptions
+  );
+  const apiData = await response.json();
+  const hotHits = apiData.items;
+  const hotHitArtists = [];
+  const hotHitAlbumImgs = [];
+  const hotHitTrackName = [];
+  const hotHitPreview = [];
+  for (let i = 0; i < hotHits.length; i++) {
+    hotHitArtists.push(hotHits[i].track.artists[0].name);
+    hotHitAlbumImgs.push(hotHits[i].track.album.images[0].url);
+    hotHitTrackName.push(hotHits[i].track.name);
+    hotHitPreview.push(hotHits[i].track.preview_url);
+  }
+  res.locals.hotHitArtists = hotHitArtists;
+  res.locals.hotHitAlbumImgs = hotHitAlbumImgs;
+  res.locals.hotHitTrackName = hotHitTrackName;
+  res.locals.hotHitPreview = hotHitPreview;
+  console.log(res.locals);
   res.status(200).json(res.locals);
 });
 
