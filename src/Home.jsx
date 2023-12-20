@@ -56,7 +56,6 @@ export default function Home() {
         setTopArtists(apiData.artistName);
         setTopGenres(apiData.topGenres);
         setTopGenreData(apiData.topGenreDataSorted);
-        console.log(apiData);
       });
     });
 
@@ -65,7 +64,6 @@ export default function Home() {
         setTopTrackArtists(apiData.topTrackArtistNames);
         setTopTrackNames(apiData.topTrackNames);
         setTopTrackImgs(apiData.topTracksAlbumImg);
-        console.log(apiData);
       });
     });
   }, []);
@@ -79,7 +77,6 @@ export default function Home() {
         setFeatPlaylistHref(apiData.featPlaylistHref);
         setFeatPlaylistImg(apiData.featPlaylistImg);
         setFeatPlaylistName(apiData.featPlaylistName);
-        console.log(apiData);
       });
     });
   }, []);
@@ -92,7 +89,6 @@ export default function Home() {
         setNewReleaseArtists(apiData.newReleaseArtistName);
         setNewReleaseImgs(apiData.newReleaseImgs);
         setNewReleaseHrefs(apiData.newReleaseHref);
-        console.log(apiData);
       });
     });
   }, []);
@@ -106,7 +102,6 @@ export default function Home() {
         setHotHitArtists(apiData.hotHitArtists);
         setHotHitTrackName(apiData.hotHitTrackName);
         setHotHitPreview(apiData.hotHitPreview);
-        console.log(apiData);
       });
     });
   }, []);
@@ -117,7 +112,6 @@ export default function Home() {
       res.json().then((apiData) => {
         setRelArtistImgs(apiData.relArtistImgs);
         setRelArtistNames(apiData.relArtistNames);
-        console.log(apiData);
       });
     });
   }, []);
@@ -129,7 +123,6 @@ export default function Home() {
         setSongRecArtistName(apiData.songRecArtistName);
         setSongRecImg(apiData.songRecImg);
         setSongRecName(apiData.songRecName);
-        console.log(apiData);
       });
     });
   }, []);
