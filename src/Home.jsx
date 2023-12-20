@@ -33,6 +33,9 @@ export default function Home() {
   const [songRecArtistName, setSongRecArtistName] = useState([]);
   const [songRecName, setSongRecName] = useState([]);
 
+  // can make specific selections based on country, cache data received so it doesn't
+  // keep requery the data if it was already viewed
+
   // separate useEffect just for profile since it will never change
   useEffect(() => {
     fetch('/api/profile').then((res) => {
@@ -43,8 +46,9 @@ export default function Home() {
       });
     });
   }, []);
+
   // set users top information in the same as it will change based upon the length short, med, long.
-  // set users top information in the same as it will change based upon the length short, med, long.
+  // can cache this info too so they don't always request the same data from endpoints
   useEffect(() => {
     fetch('/api/topArtists').then((res) => {
       res.json().then((apiData) => {
@@ -52,6 +56,7 @@ export default function Home() {
         setTopArtists(apiData.artistName);
         setTopGenres(apiData.topGenres);
         setTopGenreData(apiData.topGenreDataSorted);
+        console.log(apiData);
       });
     });
 
@@ -60,10 +65,13 @@ export default function Home() {
         setTopTrackArtists(apiData.topTrackArtistNames);
         setTopTrackNames(apiData.topTrackNames);
         setTopTrackImgs(apiData.topTracksAlbumImg);
+        console.log(apiData);
       });
     });
   }, []);
 
+  // lets keep everything separate so they way we don't do multiple pings to api
+  // just because they update the variable in a separate selection
   // can add feature to change based on selected country, give a list of countries
   useEffect(() => {
     fetch('/api/featuredPlaylists').then((res) => {
@@ -71,6 +79,7 @@ export default function Home() {
         setFeatPlaylistHref(apiData.featPlaylistHref);
         setFeatPlaylistImg(apiData.featPlaylistImg);
         setFeatPlaylistName(apiData.featPlaylistName);
+        console.log(apiData);
       });
     });
   }, []);
@@ -83,12 +92,13 @@ export default function Home() {
         setNewReleaseArtists(apiData.newReleaseArtistName);
         setNewReleaseImgs(apiData.newReleaseImgs);
         setNewReleaseHrefs(apiData.newReleaseHref);
+        console.log(apiData);
       });
     });
   }, []);
 
   // can get hot hits or top hits for country, but need to get featured playlists for a country
-  // parse the data for titles containing top and hits or hot and hits and then ran that through the hot hits endpoint
+  // parse the data for titles containing top / hits/ hot and then run that through the hot hits endpoint
   useEffect(() => {
     fetch('/api/hotHits').then((res) => {
       res.json().then((apiData) => {
@@ -96,6 +106,7 @@ export default function Home() {
         setHotHitArtists(apiData.hotHitArtists);
         setHotHitTrackName(apiData.hotHitTrackName);
         setHotHitPreview(apiData.hotHitPreview);
+        console.log(apiData);
       });
     });
   }, []);
@@ -106,6 +117,7 @@ export default function Home() {
       res.json().then((apiData) => {
         setRelArtistImgs(apiData.relArtistImgs);
         setRelArtistNames(apiData.relArtistNames);
+        console.log(apiData);
       });
     });
   }, []);
@@ -117,6 +129,7 @@ export default function Home() {
         setSongRecArtistName(apiData.songRecArtistName);
         setSongRecImg(apiData.songRecImg);
         setSongRecName(apiData.songRecName);
+        console.log(apiData);
       });
     });
   }, []);

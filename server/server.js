@@ -242,7 +242,7 @@ app.get('/api/topArtists', accTokenRefresh, async (req, res) => {
   res.locals.artistImages = artistImages;
   res.locals.topGenres = topGenres;
   res.locals.topGenreDataSorted = topGenreDataSorted;
-  console.log(res.locals);
+  // console.log(res.locals);
   res.status(200).json(res.locals);
 });
 
@@ -269,7 +269,7 @@ app.get('/api/topTracks', accTokenRefresh, async (req, res) => {
   res.locals.topTracksAlbumImg = topTracksAlbumImg;
   res.locals.topTracksArtistNames = topTracksArtistNames;
   res.locals.topTrackNames = topTrackNames;
-  console.log(res.locals);
+  // console.log(res.locals);
   res.status(200).json(res.locals);
 });
 
@@ -296,7 +296,7 @@ app.get('/api/featuredPlaylists', accTokenRefresh, async (req, res) => {
   res.locals.featPlaylistName = featPlaylistName;
   res.locals.featPlaylistImg = featPlaylistImg;
   res.locals.PlaylistHref = featPlaylistHref;
-  console.log(res.locals);
+  // console.log(res.locals);
 
   return res.status(200).json(res.locals);
 });
@@ -328,7 +328,7 @@ app.get('/api/newReleases', accTokenRefresh, async (req, res) => {
   res.locals.newReleaseImgs = newReleaseImgs;
   res.locals.newReleaseHref = newReleaseHref;
 
-  console.log(res.locals);
+  // console.log(res.locals);
   res.status(200).json(res.locals);
 });
 
@@ -358,7 +358,7 @@ app.get('/api/hotHits', accTokenRefresh, async (req, res) => {
   res.locals.hotHitAlbumImgs = hotHitAlbumImgs;
   res.locals.hotHitTrackName = hotHitTrackName;
   res.locals.hotHitPreview = hotHitPreview;
-  console.log(res.locals);
+  // console.log(res.locals);
   res.status(200).json(res.locals);
 });
 
@@ -382,7 +382,7 @@ app.get('/api/artistRecs', accTokenRefresh, async (req, res) => {
   }
   res.locals.relArtistImgs = relArtistImgs;
   res.locals.relArtistNames = relArtistNames;
-  console.log(res.locals);
+  // console.log(res.locals);
   res.status(200).json(res.locals);
 });
 
@@ -409,7 +409,7 @@ app.get('/api/songRecs', accTokenRefresh, async (req, res) => {
   res.locals.songRecImg = songRecImg;
   res.locals.songRecArtistName = songRecArtistName;
   res.locals.songRecName = songRecName;
-  console.log(res.locals);
+  // console.log(res.locals);
   res.status(200).json(res.locals);
 });
 
