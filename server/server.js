@@ -100,7 +100,6 @@ app.get('/api/callback', async (req, res) => {
 
       const access_token = authData.access_token;
       const refresh_token = authData.refresh_token;
-      console.log('access Token', access_token), {httpOnly: true};
       res.cookie('accToken', access_token, {
         maxAge: 1000 * 60 * 60,
         httpOnly: true,
