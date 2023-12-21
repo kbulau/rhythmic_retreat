@@ -290,11 +290,12 @@ app.get('/api/featuredPlaylists', accTokenRefresh, async (req, res) => {
   for (let i = 0; i < featuredPlaylists.length; i++) {
     featPlaylistName.push(featuredPlaylists[i].name);
     featPlaylistImg.push(featuredPlaylists[i].images[0].url);
-    featPlaylistHref.push(featuredPlaylists[i].href);
+    featPlaylistHref.push(featuredPlaylists[i].external_urls.spotify);
   }
+  console.log(featPlaylistHref);
   res.locals.featPlaylistName = featPlaylistName;
   res.locals.featPlaylistImg = featPlaylistImg;
-  res.locals.PlaylistHref = featPlaylistHref;
+  res.locals.featPlaylistHref = featPlaylistHref;
   // console.log(res.locals);
 
   return res.status(200).json(res.locals);

@@ -59,12 +59,13 @@ header {
 }
 
 .home_body {
-  max-height: 75vh;
+  height: 75vh;
   margin-bottom: 5vh;
 }
 
 .album_img {
   height: 25vh;
+  width: 25vh;
 }
 
 .selectedView {
