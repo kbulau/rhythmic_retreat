@@ -2,6 +2,8 @@ import {useState, useEffect} from 'react';
 import Header from './components/Header.jsx';
 import Sidebar from './components/Sidebar.jsx';
 export default function Home() {
+  const [view, setView] = useState('topArtists');
+
   const [topArtists, setTopArtists] = useState([]);
   const [topArtistImg, setTopArtistImg] = useState([]);
   const [topGenres, setTopGenres] = useState([]);
@@ -134,7 +136,7 @@ export default function Home() {
   return (
     <>
       <div className="grid grid-cols-12">
-        <Sidebar />
+        <Sidebar setView={setView} view={view} />
         <div className="col-span-10 bg-blue-950">
           <Header />
           <div className="mx-14 mt-16 bg-blue-900 rounded-t-3xl border-b-gray-500 border-solid border-t-0 border-r-0 border-l-0 h-12 text-start px-10 ">

@@ -66,3 +66,13 @@ header {
 .album_img {
   height: 25vh;
 }
+
+.selectedView {
+  border-right: 1px solid green;
+  color: green;
+}
+
+.unselectedView {
+  border-right: none;
+  color: grey;
+}
