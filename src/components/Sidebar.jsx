@@ -1,4 +1,4 @@
-const Sidebar = ({setView, view}) => {
+const Sidebar = ({setView}) => {
   // attempted to get css to display green once an sidebar option was clicked and changed,
   // after a new one was clicked, but it wasn't working properly
   // const setSideBar = (selection) => {
@@ -14,10 +14,11 @@ const Sidebar = ({setView, view}) => {
 
   return (
     <div className="m-0 p-0 col-span-2 bg-slate-900 h-screen flex flex-col gap-4 pt-10 min-w-[150px]">
-      <div className="flex gap-4 items-center justify-center pb-4 sidebar pt-2">
+      <div className="flex gap-4 items-center justify-center sidebar pt-2">
         <i className="fa-solid fa-headphones fa-sm"></i>
         <div className="text-slate-200 font-[sans]"> Rhythmic Retreat</div>
       </div>
+
       <div
         className="text-slate-500 sidebarOptions hover:text-green-600"
         id="songRecs"
