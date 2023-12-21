@@ -257,16 +257,16 @@ app.get('/api/topTracks', accTokenRefresh, async (req, res) => {
   );
   const data = await apiData.json();
   const topTracks = data.items;
-  const topTracksAlbumImg = [];
-  const topTracksArtistNames = [];
+  const topTrackAlbumImgs = [];
+  const topTrackArtistNames = [];
   const topTrackNames = [];
   for (let i = 0; i < topTracks.length; i++) {
-    topTracksAlbumImg.push(topTracks[i].album.images[1].url);
-    topTracksArtistNames.push(topTracks[i].artists[0].name);
+    topTrackAlbumImgs.push(topTracks[i].album.images[1].url);
+    topTrackArtistNames.push(topTracks[i].artists[0].name);
     topTrackNames.push(topTracks[i].name);
   }
-  res.locals.topTracksAlbumImg = topTracksAlbumImg;
-  res.locals.topTracksArtistNames = topTracksArtistNames;
+  res.locals.topTrackAlbumImgs = topTrackAlbumImgs;
+  res.locals.topTrackArtistNames = topTrackArtistNames;
   res.locals.topTrackNames = topTrackNames;
   // console.log(res.locals);
   res.status(200).json(res.locals);

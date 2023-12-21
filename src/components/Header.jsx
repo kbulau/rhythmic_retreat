@@ -15,19 +15,16 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="col-span-10 bg-blue-950">
-      <header className="flex justify-between h-16 items-center border-slate-600 mx-16">
-        <div className="flex text-slate-400">Hello {user}</div>
-        <div className="flex items-center gap-8 text-slate-400">
-          <div className="">
-            <i className="fa-solid fa-bell fa-sm"></i>
-          </div>
-
-          <img src={profilePic} className="object-cover rounded-full h-10" />
+    <header className="flex justify-between h-16 items-center border-slate-600 mx-14">
+      <div className="flex text-slate-400">Hello {user}</div>
+      <div className="flex items-center gap-8 text-slate-400">
+        <div className="">
+          <i className="fa-solid fa-bell fa-sm"></i>
         </div>
-      </header>
-      <div className="text-slate-400">noway</div>
-    </div>
+
+        <img src={profilePic} className="object-cover rounded-full h-10" />
+      </div>
+    </header>
   );
 };
 

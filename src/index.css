@@ -16,6 +16,8 @@
   font-weight: 400;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  padding: 0;
+  margin: 0;
   /* -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
 }
@@ -54,4 +56,13 @@ header {
 
 .sidebarOptions:hover {
   border-right: 1px solid green;
+}
+
+.home_body {
+  height: 75vh;
+  margin-bottom: 5vh;
+}
+
+.album_img {
+  height: 25vh;
 }

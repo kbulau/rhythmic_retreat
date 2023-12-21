@@ -8,7 +8,7 @@ export default function Home() {
   const [topGenreData, setTopGenreData] = useState([]);
 
   const [topTrackNames, setTopTrackNames] = useState([]);
-  const [topTrackArtists, setTopTrackArtists] = useState([]);
+  const [topTrackArtistNames, setTopTrackArtistNames] = useState([]);
   const [topTrackImgs, setTopTrackImgs] = useState([]);
 
   const [featPlaylistName, setFeatPlaylistName] = useState([]);
@@ -51,9 +51,9 @@ export default function Home() {
 
     fetch('/api/topTracks').then((res) => {
       res.json().then((apiData) => {
-        setTopTrackArtists(apiData.topTrackArtistNames);
+        setTopTrackArtistNames(apiData.topTrackArtistNames);
         setTopTrackNames(apiData.topTrackNames);
-        setTopTrackImgs(apiData.topTracksAlbumImg);
+        setTopTrackImgs(apiData.topTrackAlbumImgs);
       });
     });
   }, []);
@@ -61,67 +61,91 @@ export default function Home() {
   // lets keep everything separate so they way we don't do multiple pings to api
   // just because they update the variable in a separate selection
   // can add feature to change based on selected country, give a list of countries
-  useEffect(() => {
-    fetch('/api/featuredPlaylists').then((res) => {
-      res.json().then((apiData) => {
-        setFeatPlaylistHref(apiData.featPlaylistHref);
-        setFeatPlaylistImg(apiData.featPlaylistImg);
-        setFeatPlaylistName(apiData.featPlaylistName);
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetch('/api/featuredPlaylists').then((res) => {
+  //     res.json().then((apiData) => {
+  //       setFeatPlaylistHref(apiData.featPlaylistHref);
+  //       setFeatPlaylistImg(apiData.featPlaylistImg);
+  //       setFeatPlaylistName(apiData.featPlaylistName);
+  //     });
+  //   });
+  // }, []);
 
-  // can get new releases for a country,
-  useEffect(() => {
-    fetch('/api/newReleases').then((res) => {
-      res.json().then((apiData) => {
-        setNewReleaseAlbums(apiData.newReleaseAlbums);
-        setNewReleaseArtists(apiData.newReleaseArtistName);
-        setNewReleaseImgs(apiData.newReleaseImgs);
-        setNewReleaseHrefs(apiData.newReleaseHref);
-      });
-    });
-  }, []);
+  // // can get new releases for a country,
+  // useEffect(() => {
+  //   fetch('/api/newReleases').then((res) => {
+  //     res.json().then((apiData) => {
+  //       setNewReleaseAlbums(apiData.newReleaseAlbums);
+  //       setNewReleaseArtists(apiData.newReleaseArtistName);
+  //       setNewReleaseImgs(apiData.newReleaseImgs);
+  //       setNewReleaseHrefs(apiData.newReleaseHref);
+  //     });
+  //   });
+  // }, []);
 
-  // can get hot hits or top hits for country, but need to get featured playlists for a country
-  // parse the data for titles containing top / hits/ hot and then run that through the hot hits endpoint
-  useEffect(() => {
-    fetch('/api/hotHits').then((res) => {
-      res.json().then((apiData) => {
-        setHotHitAlbumImgs(apiData.hotHitAlbumImgs);
-        setHotHitArtists(apiData.hotHitArtists);
-        setHotHitTrackName(apiData.hotHitTrackName);
-        setHotHitPreview(apiData.hotHitPreview);
-      });
-    });
-  }, []);
+  // // can get hot hits or top hits for country, but need to get featured playlists for a country
+  // // parse the data for titles containing top / hits/ hot and then run that through the hot hits endpoint
+  // useEffect(() => {
+  //   fetch('/api/hotHits').then((res) => {
+  //     res.json().then((apiData) => {
+  //       setHotHitAlbumImgs(apiData.hotHitAlbumImgs);
+  //       setHotHitArtists(apiData.hotHitArtists);
+  //       setHotHitTrackName(apiData.hotHitTrackName);
+  //       setHotHitPreview(apiData.hotHitPreview);
+  //     });
+  //   });
+  // }, []);
 
-  // need to add another endpoint to look up artists and allow people to choose
-  useEffect(() => {
-    fetch('/api/artistRecs').then((res) => {
-      res.json().then((apiData) => {
-        setRelArtistImgs(apiData.relArtistImgs);
-        setRelArtistNames(apiData.relArtistNames);
-      });
-    });
-  }, []);
+  // // need to add another endpoint to look up artists and allow people to choose
+  // useEffect(() => {
+  //   fetch('/api/artistRecs').then((res) => {
+  //     res.json().then((apiData) => {
+  //       setRelArtistImgs(apiData.relArtistImgs);
+  //       setRelArtistNames(apiData.relArtistNames);
+  //     });
+  //   });
+  // }, []);
 
-  // need to modify endpoint to take custom parameters like artist, genres, and tracks
-  useEffect(() => {
-    fetch('/api/songRecs').then((res) => {
-      res.json().then((apiData) => {
-        setSongRecArtistName(apiData.songRecArtistName);
-        setSongRecImg(apiData.songRecImg);
-        setSongRecName(apiData.songRecName);
-      });
-    });
-  }, []);
+  // // need to modify endpoint to take custom parameters like artist, genres, and tracks
+  // useEffect(() => {
+  //   fetch('/api/songRecs').then((res) => {
+  //     res.json().then((apiData) => {
+  //       setSongRecArtistName(apiData.songRecArtistName);
+  //       setSongRecImg(apiData.songRecImg);
+  //       setSongRecName(apiData.songRecName);
+  //     });
+  //   });
+  // }, []);
 
+  const topTracksArray = [];
+
+  for (let i = 0; i < topArtists.length; i++) {
+    topTracksArray.push(
+      <div className=" text-white text-center ">
+        <img src={topTrackImgs[i]} className="album_img"></img>
+        <div className="text-lg">{topTrackNames[i]}</div>
+        <div className="text-base">{topTrackArtistNames[i]}</div>
+      </div>
+    );
+  }
+  console.log(topTrackImgs[0]);
+  console.log(topTrackArtistNames[0]);
+  console.log(topTrackNames[0]);
   return (
     <>
       <div className="grid grid-cols-12">
         <Sidebar />
-        <Header />
+        <div className="col-span-10 bg-blue-950">
+          <Header />
+          <div className="mx-14 mt-16 bg-blue-900 rounded-t-3xl border-b-gray-500 border-solid border-t-0 border-r-0 border-l-0 h-12 text-start px-10 ">
+            hi
+          </div>
+          <div className=" mx-14 mb-16 bg-blue-900 home_body overflow-auto">
+            <div className="text-start pt-10 px-10 flex flex-wrap justify-around gap-10">
+              {topTracksArray}
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
