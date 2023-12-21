@@ -135,15 +135,15 @@ export default function Home() {
   console.log(topTrackNames[0]);
   return (
     <>
-      <div className="grid grid-cols-12">
+      <div className="grid grid-cols-12 h-screen">
         <Sidebar setView={setView} view={view} />
-        <div className="col-span-10 bg-blue-950">
+        <div className="col-span-10 row-span-1 bg-blue-950">
           <Header />
-          <div className="mx-14 mt-8 bg-blue-900 rounded-t-3xl border-b-gray-500 border-solid border-t-0 border-r-0 border-l-0  text-start px-10 ">
+          <div className="mx-14 bg-blue-900 rounded-t-3xl border-b-gray-500 border-solid border-t-0 border-r-0 border-l-0  text-start px-10 ">
             <div className="text-center text-white text pt-4">Top Artists</div>
             <div>hi</div>
           </div>
-          <div className=" mx-14 mb-16 bg-blue-900 home_body overflow-auto">
+          <div className=" mx-14 bg-blue-900 home_body overflow-auto">
             <div className="text-start pt-10 px-10 flex flex-wrap justify-around gap-10">
               {topTracksArray}
             </div>

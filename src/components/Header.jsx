@@ -15,7 +15,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="flex justify-between h-16 items-center border-slate-600 mx-14">
+    <header className="flex justify-between h-16 items-center border-slate-600 mx-14 mb-6">
       <div className="flex text-slate-400">Hello {user}</div>
       <div className="flex items-center gap-8 text-slate-400">
         <div className="">

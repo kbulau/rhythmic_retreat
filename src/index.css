@@ -59,7 +59,7 @@ header {
 }
 
 .home_body {
-  height: 75vh;
+  max-height: 75vh;
   margin-bottom: 5vh;
 }
 
