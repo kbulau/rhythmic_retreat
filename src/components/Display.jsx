@@ -1,6 +1,14 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 const Display = () => {
+  const topArtistsCache = useRef(new Map());
+  const topGenresCache = useRef(new Map());
+  const topTracksCache = useRef(new Map());
+  const featPlaylistCache = useRef(new Map());
+  const newReleaseCache = useRef(new Map());
+  const hotHitCache = useRef(new Map());
+  const relArtistCache = useRef(new Map());
+
   const [topArtists, setTopArtists] = useState([]);
   const [topArtistImg, setTopArtistImg] = useState([]);
   const [topGenres, setTopGenres] = useState([]);
@@ -98,15 +106,15 @@ const Display = () => {
   // }, []);
 
   // // // need to add another endpoint to look up artists and allow people to choose
-  // useEffect(() => {
-  //   fetch('/api/artistRecs').then((res) => {
-  //     res.json().then((apiData) => {
-  //       setRelArtistImgs(apiData.relArtistImgs);
-  //       setRelArtistNames(apiData.relArtistNames);
-  //       setRelArtistHref(apiData.relArtistHref);
-  //     });
-  //   });
-  // }, []);
+  useEffect(() => {
+    fetch('/api/artistRecs').then((res) => {
+      res.json().then((apiData) => {
+        setRelArtistImgs(apiData.relArtistImgs);
+        setRelArtistNames(apiData.relArtistNames);
+        setRelArtistHref(apiData.relArtistHref);
+      });
+    });
+  }, []);
 
   // // // need to modify endpoint to take custom parameters like artist, genres, and tracks
   useEffect(() => {
@@ -195,20 +203,20 @@ const Display = () => {
   //   }
   //   return hotHitArray;
   // };
-  // const relArtistContent = () => {
-  //   const relArtistArray = [];
-  //   for (let i = 0; i < relArtistImgs.length; i++) {
-  //     relArtistArray.push(
-  //       <div className=" text-white text-center ">
-  //         <a href={relArtistHref[i]} target="_blank" rel="noreferrer">
-  //           <img src={relArtistImgs[i]} className="album_img" />
-  //         </a>
-  //         <div className="text-lg">{relArtistNames[i]}</div>
-  //       </div>
-  //     );
-  //   }
-  //   return relArtistArray;
-  // };
+  const relArtistContent = () => {
+    const relArtistArray = [];
+    for (let i = 0; i < relArtistImgs.length; i++) {
+      relArtistArray.push(
+        <div className=" text-white text-center ">
+          <a href={relArtistHref[i]} target="_blank" rel="noreferrer">
+            <img src={relArtistImgs[i]} className="album_img" />
+          </a>
+          <div className="text-lg">{relArtistNames[i]}</div>
+        </div>
+      );
+    }
+    return relArtistArray;
+  };
 
   const songRecContent = () => {
     const songRecArray = [];
@@ -237,7 +245,7 @@ const Display = () => {
         {/* {featPlaylistContent()} */}
         {/* {newReleaseContent()} */}
         {/* {hotHitContent()} */}
-        {/* {relArtistContent()} */}
+        {relArtistContent()}
         {/* {songRecContent()} */}
       </div>
     </div>
