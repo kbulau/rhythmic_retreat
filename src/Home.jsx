@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import Header from './components/Header.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Display from './components/Display.jsx';

@@ -314,17 +314,17 @@ app.get('/api/newReleases', accTokenRefresh, async (req, res) => {
   const apiData = await response.json();
   const newReleases = apiData.albums.items;
   const newReleaseImgs = [];
-  const newReleaseNames = [];
+  const newReleaseAlbums = [];
   const newReleaseHref = [];
   const newReleaseArtistName = [];
   for (let i = 0; i < newReleases.length; i++) {
     newReleaseImgs.push(newReleases[i].images[0].url);
-    newReleaseNames.push(newReleases[i].name);
+    newReleaseAlbums.push(newReleases[i].name);
     newReleaseHref.push(newReleases[i].href);
     newReleaseArtistName.push(newReleases[i].artists[0].name);
   }
   res.locals.newReleaseArtistName = newReleaseArtistName;
-  res.locals.newReleaseNames = newReleaseNames;
+  res.locals.newReleaseAlbums = newReleaseAlbums;
   res.locals.newReleaseImgs = newReleaseImgs;
   res.locals.newReleaseHref = newReleaseHref;
 
@@ -348,16 +348,19 @@ app.get('/api/hotHits', accTokenRefresh, async (req, res) => {
   const hotHitAlbumImgs = [];
   const hotHitTrackName = [];
   const hotHitPreview = [];
+  const hotHitHref = [];
   for (let i = 0; i < hotHits.length; i++) {
     hotHitArtists.push(hotHits[i].track.artists[0].name);
     hotHitAlbumImgs.push(hotHits[i].track.album.images[0].url);
     hotHitTrackName.push(hotHits[i].track.name);
     hotHitPreview.push(hotHits[i].track.preview_url);
+    hotHitHref.push(hotHits[i].track.external_urls.spotify);
   }
   res.locals.hotHitArtists = hotHitArtists;
   res.locals.hotHitAlbumImgs = hotHitAlbumImgs;
   res.locals.hotHitTrackName = hotHitTrackName;
-  res.locals.hotHitPreview = hotHitPreview;
+  res.locals.hotHitHref = hotHitHref;
+  console.log(res.locals);
   // console.log(res.locals);
   res.status(200).json(res.locals);
 });
@@ -376,12 +379,15 @@ app.get('/api/artistRecs', accTokenRefresh, async (req, res) => {
   const relArtists = apiData.artists;
   const relArtistImgs = [];
   const relArtistNames = [];
+  const relArtistHref = [];
   for (let i = 0; i < relArtists.length; i++) {
     relArtistImgs.push(relArtists[i].images[0].url);
     relArtistNames.push(relArtists[i].name);
+    relArtistHref.push(relArtists[i].external_urls.spotify);
   }
   res.locals.relArtistImgs = relArtistImgs;
   res.locals.relArtistNames = relArtistNames;
+  res.locals.relArtistHref = relArtistHref;
   // console.log(res.locals);
   res.status(200).json(res.locals);
 });
@@ -401,14 +407,17 @@ app.get('/api/songRecs', accTokenRefresh, async (req, res) => {
   const songRecImg = [];
   const songRecArtistName = [];
   const songRecName = [];
+  const songRecHref = [];
   for (let i = 0; i < songRecs.length; i++) {
     songRecImg.push(songRecs[i].album.images[0].url);
     songRecArtistName.push(songRecs[i].artists[0].name);
     songRecName.push(songRecs[i].name);
+    songRecHref.push(songRecs[i].external_urls.spotify);
   }
   res.locals.songRecImg = songRecImg;
   res.locals.songRecArtistName = songRecArtistName;
   res.locals.songRecName = songRecName;
+  res.locals.songRecHref = songRecHref;
   // console.log(res.locals);
   res.status(200).json(res.locals);
 });
