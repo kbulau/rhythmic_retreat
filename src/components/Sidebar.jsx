@@ -13,7 +13,7 @@ const Sidebar = ({setView}) => {
   // };
 
   return (
-    <div className="m-0 p-0 col-span-2 bg-slate-900 flex flex-col gap-4 pt-10 min-w-[150px] h-dvh">
+    <div className="m-0 p-0 col-span-2 bg-slate-900 flex flex-col gap-4 pt-10 min-w-[150px]">
       <div className="flex gap-4 items-center justify-center sidebar pt-2">
         <i className="fa-solid fa-headphones fa-sm"></i>
         <div className="text-slate-200 font-[sans]"> Rhythmic Retreat</div>
