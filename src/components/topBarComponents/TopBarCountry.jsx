@@ -10,7 +10,7 @@ const TopBarCountry = ({setCountry, country}) => {
   return (
     <div className="mx-14 p-2 bg-blue-900 rounded-t-3xl border-b-gray-500 border-solid border-t-0 border-r-0 border-l-0  text-start px-10 ">
       <div className="text-center text-white ">Top Artists</div>
-      <div className="">
+      <div className="text-center">
         <div>
           <input
             type="text"

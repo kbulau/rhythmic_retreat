@@ -422,6 +422,43 @@ app.get('/api/songRecs', accTokenRefresh, async (req, res) => {
   res.status(200).json(res.locals);
 });
 
+app.get('/api/findArtist', accTokenRefresh, async (req, res) => {
+  const userOptions = {
+    headers: {
+      Authorization: 'Bearer ' + req.cookies.accToken,
+    },
+  };
+  const queryName = req.query.artist;
+  console.log(req.query.artist);
+  const response = await fetch(
+    `https://api.spotify.com/v1/search?q=${encodeURIComponent(
+      queryName
+    )}&type=artist&limit=10`,
+    userOptions
+  );
+  const apiData = await response.json();
+  const listOfArtists = apiData.artists.items;
+  const artistNames = [];
+  const artistImgs = [];
+  const artistIDs = [];
+
+  for (let i = 0; i < listOfArtists.length; i++) {
+    artistNames.push(listOfArtists[i].name);
+    if (listOfArtists[i].images[0]) {
+      artistImgs.push(listOfArtists[i].images[0].url);
+    } else {
+      artistImgs.push('undefined');
+    }
+    artistIDs.push(listOfArtists[i].id);
+  }
+
+  res.locals.artistNames = artistNames;
+  res.locals.artistImgs = artistImgs;
+  res.locals.artistIDs = artistIDs;
+  // console.log(res.locals);
+  res.status(200).json(res.locals);
+});
+
 // catch-all route handler for any requests to an unknown route
 app.use('*', (_req, res) => {
   res.sendStatus(404);

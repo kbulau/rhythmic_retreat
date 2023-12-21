@@ -9,6 +9,8 @@ const Display = () => {
   const hotHitCache = useRef(new Map());
   const relArtistCache = useRef(new Map());
 
+  const [lengthQuery, setLengthQuery] = useState('short_term');
+
   const [topArtists, setTopArtists] = useState([]);
   const [topArtistImg, setTopArtistImg] = useState([]);
   const [topGenres, setTopGenres] = useState([]);
@@ -48,24 +50,24 @@ const Display = () => {
 
   // set users top information in the same as it will change based upon the length short, med, long.
   // can cache this info too so they don't always request the same data from endpoints
-  // useEffect(() => {
-  //   fetch('/api/topArtists').then((res) => {
-  //     res.json().then((apiData) => {
-  //       setTopArtistImg(apiData.artistImages);
-  //       setTopArtists(apiData.artistName);
-  //       setTopGenres(apiData.topGenres);
-  //       setTopGenreData(apiData.topGenreDataSorted);
-  //     });
-  //   });
+  useEffect(() => {
+    fetch('/api/topArtists').then((res) => {
+      res.json().then((apiData) => {
+        setTopArtistImg(apiData.artistImages);
+        setTopArtists(apiData.artistName);
+        setTopGenres(apiData.topGenres);
+        setTopGenreData(apiData.topGenreDataSorted);
+      });
+    });
 
-  //   fetch('/api/topTracks').then((res) => {
-  //     res.json().then((apiData) => {
-  //       setTopTrackArtistNames(apiData.topTrackArtistNames);
-  //       setTopTrackNames(apiData.topTrackNames);
-  //       setTopTrackImgs(apiData.topTrackAlbumImgs);
-  //     });
-  //   });
-  // }, []);
+    fetch('/api/topTracks').then((res) => {
+      res.json().then((apiData) => {
+        setTopTrackArtistNames(apiData.topTrackArtistNames);
+        setTopTrackNames(apiData.topTrackNames);
+        setTopTrackImgs(apiData.topTrackAlbumImgs);
+      });
+    });
+  }, []);
 
   // // lets keep everything separate so they way we don't do multiple pings to api
   // // just because they update the variable in a separate selection
@@ -106,15 +108,15 @@ const Display = () => {
   // }, []);
 
   // // // need to add another endpoint to look up artists and allow people to choose
-  useEffect(() => {
-    fetch('/api/artistRecs').then((res) => {
-      res.json().then((apiData) => {
-        setRelArtistImgs(apiData.relArtistImgs);
-        setRelArtistNames(apiData.relArtistNames);
-        setRelArtistHref(apiData.relArtistHref);
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetch('/api/artistRecs').then((res) => {
+  //     res.json().then((apiData) => {
+  //       setRelArtistImgs(apiData.relArtistImgs);
+  //       setRelArtistNames(apiData.relArtistNames);
+  //       setRelArtistHref(apiData.relArtistHref);
+  //     });
+  //   });
+  // }, []);
 
   // // // need to modify endpoint to take custom parameters like artist, genres, and tracks
   useEffect(() => {
@@ -218,24 +220,24 @@ const Display = () => {
     return relArtistArray;
   };
 
-  const songRecContent = () => {
-    const songRecArray = [];
-    console.log(songRecArtistName);
-    for (let i = 0; i < songRecArtistName.length; i++) {
-      songRecArray.push(
-        <div className="w-[25vh]">
-          <div className=" text-white text-center ">
-            <a href={songRecHref[i]} target="_blank" rel="noreferrer">
-              <img src={songRecImg[i]} className="album_img" />
-            </a>
-            <div className="text-lg">{songRecName[i]}</div>
-            <div className="text-base">{songRecArtistName[i]}</div>
-          </div>
-        </div>
-      );
-    }
-    return songRecArray;
-  };
+  // const songRecContent = () => {
+  //   const songRecArray = [];
+  //   console.log(songRecArtistName);
+  //   for (let i = 0; i < songRecArtistName.length; i++) {
+  //     songRecArray.push(
+  //       <div className="w-[25vh]">
+  //         <div className=" text-white text-center ">
+  //           <a href={songRecHref[i]} target="_blank" rel="noreferrer">
+  //             <img src={songRecImg[i]} className="album_img" />
+  //           </a>
+  //           <div className="text-lg">{songRecName[i]}</div>
+  //           <div className="text-base">{songRecArtistName[i]}</div>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  //   return songRecArray;
+  // };
   console.log(songRecImg);
   return (
     <div className=" mx-14 bg-blue-900 home_body overflow-auto">
