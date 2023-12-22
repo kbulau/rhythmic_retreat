@@ -4,15 +4,15 @@ const Header = () => {
   const [user, setUser] = useState('');
   const [profilePic, setProfilePic] = useState('');
 
-  useEffect(() => {
-    fetch('/api/profile').then((res) => {
-      res.json().then((data) => {
-        const name = data.display_name;
-        setUser(data.display_name.charAt(0).toUpperCase() + name.slice(1));
-        setProfilePic(data.images[0].url);
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetch('/api/profile').then((res) => {
+  //     res.json().then((data) => {
+  //       const name = data.display_name;
+  //       setUser(data.display_name.charAt(0).toUpperCase() + name.slice(1));
+  //       setProfilePic(data.images[0].url);
+  //     });
+  //   });
+  // }, []);
 
   return (
     <header className="flex justify-between h-16 items-center border-slate-600 mx-14 mb-6">
