@@ -7,7 +7,8 @@ const TopBarArtists = () => {
   //
   // const [inputImgs, setInputImgs] = useState([]);
   // const [inputNames, setInputNames] = useState([]);
-  const [inputIDs, setInputIDs] = useState([]);
+  // const [inputIDs, setInputIDs] = useState([]);
+  const [inputArtistID, setInputArtistID] = useState('');
   const getListOfArtists = () => {
     console.log('input', inputArtist);
     fetch(`/api/findArtist?artist=${encodeURIComponent(inputArtist)}`).then(
@@ -17,7 +18,7 @@ const TopBarArtists = () => {
           //
           // setInputNames(apiData.artistNames);
           // setInputImgs(apiData.artistImgs);
-          setInputIDs(apiData.artistIDs);
+          setInputArtistID(apiData.artistIDs[0]);
         });
       }
     );
@@ -25,7 +26,7 @@ const TopBarArtists = () => {
 
   return (
     <div className="mx-14 p-2 bg-blue-900 rounded-t-3xl border-b-gray-500 border-solid border-t-0 border-r-0 border-l-0  text-start px-10 ">
-      <div className="text-center text-white ">Top Artists</div>
+      <div className="text-center text-white ">Artist Recs</div>
       <Form className="flex align-center items-center justify-center">
         <input
           type="text"

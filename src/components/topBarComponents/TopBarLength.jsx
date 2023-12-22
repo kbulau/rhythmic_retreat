@@ -1,7 +1,11 @@
-const TopBarLength = ({setLengthQuery}) => {
+const TopBarLength = ({setLengthQuery, view}) => {
+  const options = {
+    topTracks: 'Top Tracks',
+    topArtists: 'Top Artists',
+  };
   return (
     <div className="mx-14 p-2 bg-blue-900 rounded-t-3xl border-b-gray-500 border-solid border-t-0 border-r-0 border-l-0  text-start px-10 ">
-      <div className="text-center text-white ">Top tracks</div>
+      <div className="text-center text-white ">{options[view]}</div>
       <div className="text-center">
         <select className="ui dropdown">
           <option value="">Select History</option>

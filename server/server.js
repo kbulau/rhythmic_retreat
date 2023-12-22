@@ -459,6 +459,25 @@ app.get('/api/findArtist', accTokenRefresh, async (req, res) => {
   res.status(200).json(res.locals);
 });
 
+app.get('/api/findTrack', async (req, res) => {
+  const userOptions = {
+    headers: {
+      Authorization: 'Bearer ' + req.cookies.accToken,
+    },
+  };
+  const queryTrack = req.query.track;
+  const response = await fetch(
+    `https://api.spotify.com/v1/search?q=${encodeURIComponent(
+      queryTrack
+    )}&type=track&limit=10`,
+    userOptions
+  );
+  const apiData = await response.json();
+  const songID = apiData.tracks.items[0].id;
+  console.log(songID);
+  res.locals.songID = songID;
+  res.status(200).json(res.locals);
+});
 // catch-all route handler for any requests to an unknown route
 app.use('*', (_req, res) => {
   res.sendStatus(404);

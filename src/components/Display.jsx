@@ -119,16 +119,16 @@ const Display = () => {
   // }, []);
 
   // // // need to modify endpoint to take custom parameters like artist, genres, and tracks
-  useEffect(() => {
-    fetch('/api/songRecs').then((res) => {
-      res.json().then((apiData) => {
-        setSongRecArtistName(apiData.songRecArtistName);
-        setSongRecImg(apiData.songRecImg);
-        setSongRecName(apiData.songRecName);
-        setSongRecHref(apiData.songRecHref);
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetch('/api/songRecs').then((res) => {
+  //     res.json().then((apiData) => {
+  //       setSongRecArtistName(apiData.songRecArtistName);
+  //       setSongRecImg(apiData.songRecImg);
+  //       setSongRecName(apiData.songRecName);
+  //       setSongRecHref(apiData.songRecHref);
+  //     });
+  //   });
+  // }, []);
 
   // const topTrackContent = () => {
   //   const topTracksArray = [];
@@ -205,20 +205,20 @@ const Display = () => {
   //   }
   //   return hotHitArray;
   // };
-  const relArtistContent = () => {
-    const relArtistArray = [];
-    for (let i = 0; i < relArtistImgs.length; i++) {
-      relArtistArray.push(
-        <div className=" text-white text-center ">
-          <a href={relArtistHref[i]} target="_blank" rel="noreferrer">
-            <img src={relArtistImgs[i]} className="album_img" />
-          </a>
-          <div className="text-lg">{relArtistNames[i]}</div>
-        </div>
-      );
-    }
-    return relArtistArray;
-  };
+  // const relArtistContent = () => {
+  //   const relArtistArray = [];
+  //   for (let i = 0; i < relArtistImgs.length; i++) {
+  //     relArtistArray.push(
+  //       <div className=" text-white text-center ">
+  //         <a href={relArtistHref[i]} target="_blank" rel="noreferrer">
+  //           <img src={relArtistImgs[i]} className="album_img" />
+  //         </a>
+  //         <div className="text-lg">{relArtistNames[i]}</div>
+  //       </div>
+  //     );
+  //   }
+  //   return relArtistArray;
+  // };
 
   // const songRecContent = () => {
   //   const songRecArray = [];
@@ -238,7 +238,6 @@ const Display = () => {
   //   }
   //   return songRecArray;
   // };
-  console.log(songRecImg);
   return (
     <div className=" mx-14 bg-blue-900 home_body overflow-auto">
       <div className="text-start pt-10 px-10 flex flex-wrap justify-around gap-10">
@@ -247,7 +246,7 @@ const Display = () => {
         {/* {featPlaylistContent()} */}
         {/* {newReleaseContent()} */}
         {/* {hotHitContent()} */}
-        {relArtistContent()}
+        {/* {relArtistContent()} */}
         {/* {songRecContent()} */}
       </div>
     </div>
