@@ -9,7 +9,7 @@ const TopBarCountry = ({setCountry, country, view}) => {
 
   const options = {
     hotHits: 'Hot Hits',
-    featPlaylist: 'Featured Playlists',
+    featPlaylists: 'Featured Playlists',
     newReleases: 'New Releases',
   };
 
