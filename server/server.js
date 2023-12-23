@@ -206,8 +206,12 @@ app.get('/api/topArtists', accTokenRefresh, async (req, res) => {
       Authorization: 'Bearer ' + req.cookies.accToken,
     },
   };
+  const lengthQuery = req.query.lengthQuery;
+
   const apiData = await fetch(
-    'https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=10',
+    `https://api.spotify.com/v1/me/top/artists?time_range=${encodeURIComponent(
+      lengthQuery
+    )}&limit=10`,
     userOptions
   );
   const data = await apiData.json();
@@ -251,8 +255,11 @@ app.get('/api/topTracks', accTokenRefresh, async (req, res) => {
       Authorization: 'Bearer ' + req.cookies.accToken,
     },
   };
+  const lengthQuery = req.query.lengthQuery;
   const apiData = await fetch(
-    'https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=10',
+    `https://api.spotify.com/v1/me/top/tracks?time_range=${encodeURIComponent(
+      lengthQuery
+    )}&limit=10`,
     userOptions
   );
   const data = await apiData.json();
@@ -278,8 +285,11 @@ app.get('/api/featuredPlaylists', accTokenRefresh, async (req, res) => {
       Authorization: 'Bearer ' + req.cookies.accToken,
     },
   };
+  const featPlaylistCountry = req.query.featPlaylistCountry;
   const response = await fetch(
-    'https://api.spotify.com/v1/browse/featured-playlists?country=US&limit=10',
+    `https://api.spotify.com/v1/browse/featured-playlists?country=${encodeURIComponent(
+      featPlaylistCountry
+    )}&limit=10`,
     userOptions
   );
   const apiData = await response.json();
@@ -292,7 +302,6 @@ app.get('/api/featuredPlaylists', accTokenRefresh, async (req, res) => {
     featPlaylistImg.push(featuredPlaylists[i].images[0].url);
     featPlaylistHref.push(featuredPlaylists[i].external_urls.spotify);
   }
-  console.log(featPlaylistHref);
   res.locals.featPlaylistName = featPlaylistName;
   res.locals.featPlaylistImg = featPlaylistImg;
   res.locals.featPlaylistHref = featPlaylistHref;
@@ -307,11 +316,16 @@ app.get('/api/newReleases', accTokenRefresh, async (req, res) => {
       Authorization: 'Bearer ' + req.cookies.accToken,
     },
   };
+  const newReleaseCountry = req.query.newReleaseCountry;
+
   const response = await fetch(
-    'https://api.spotify.com/v1/browse/new-releases?country=US&limit=10',
+    `https://api.spotify.com/v1/browse/new-releases?country=${encodeURIComponent(
+      newReleaseCountry
+    )}&limit=10`,
     userOptions
   );
   const apiData = await response.json();
+  console.log(apiData.albums.items);
   const newReleases = apiData.albums.items;
   const newReleaseImgs = [];
   const newReleaseAlbums = [];
@@ -338,8 +352,10 @@ app.get('/api/hotHits', accTokenRefresh, async (req, res) => {
       Authorization: 'Bearer ' + req.cookies.accToken,
     },
   };
+  // const hotHitsCountry = req.query.hotHitsCountry;
+
   const response = await fetch(
-    'https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M/tracks?limit=10',
+    `https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M/tracks?limit=10`,
     userOptions
   );
   const apiData = await response.json();
@@ -371,8 +387,12 @@ app.get('/api/artistRecs', accTokenRefresh, async (req, res) => {
       Authorization: 'Bearer ' + req.cookies.accToken,
     },
   };
+  const artistRecID = req.query.artistRecID;
+
   const response = await fetch(
-    'https://api.spotify.com/v1/artists/78rUTD7y6Cy67W1RVzYs7t/related-artists',
+    `https://api.spotify.com/v1/artists/${encodeURIComponent(
+      artistRecID
+    )}/related-artists`,
     userOptions
   );
   const apiData = await response.json();
@@ -398,8 +418,12 @@ app.get('/api/songRecs', accTokenRefresh, async (req, res) => {
       Authorization: 'Bearer ' + req.cookies.accToken,
     },
   };
+  const songRecID = req.query.songRecID;
+
   const response = await fetch(
-    'https://api.spotify.com/v1/recommendations?limit=10&seed_tracks=6IPwKM3fUUzlElbvKw2sKl',
+    `https://api.spotify.com/v1/recommendations?limit=10&seed_tracks=${encodeURIComponent(
+      songRecID
+    )}`,
     userOptions
   );
   const apiData = await response.json();

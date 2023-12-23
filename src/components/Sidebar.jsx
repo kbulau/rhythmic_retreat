@@ -22,7 +22,9 @@ const Sidebar = ({setView}) => {
       <div
         className="text-slate-500 sidebarOptions hover:text-green-600"
         id="songRecs"
-        onClick={() => setView('songRecs')}>
+        onClick={() => {
+          setView('songRecs');
+        }}>
         Song Recs
       </div>
       <div

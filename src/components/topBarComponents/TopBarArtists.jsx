@@ -1,16 +1,15 @@
 import {useState} from 'react';
 import {Button, Form} from 'semantic-ui-react';
-const TopBarArtists = () => {
-  const [selectedArtist, setselectedArtist] = useState('');
+const TopBarArtists = ({setArtistRecID}) => {
+  // const [selectedArtist, setselectedArtist] = useState('');
   const [inputArtist, setInputArtist] = useState('');
   // future feature add custom selection to make sure correct artist
   //
   // const [inputImgs, setInputImgs] = useState([]);
   // const [inputNames, setInputNames] = useState([]);
   // const [inputIDs, setInputIDs] = useState([]);
-  const [inputArtistID, setInputArtistID] = useState('');
+  // const [inputArtistID, setInputArtistID] = useState('');
   const getListOfArtists = () => {
-    console.log('input', inputArtist);
     fetch(`/api/findArtist?artist=${encodeURIComponent(inputArtist)}`).then(
       (res) => {
         res.json().then((apiData) => {
@@ -18,7 +17,7 @@ const TopBarArtists = () => {
           //
           // setInputNames(apiData.artistNames);
           // setInputImgs(apiData.artistImgs);
-          setInputArtistID(apiData.artistIDs[0]);
+          setArtistRecID(apiData.artistIDs[0]);
         });
       }
     );
