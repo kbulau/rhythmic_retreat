@@ -334,7 +334,7 @@ app.get('/api/newReleases', accTokenRefresh, async (req, res) => {
   for (let i = 0; i < newReleases.length; i++) {
     newReleaseImgs.push(newReleases[i].images[0].url);
     newReleaseAlbums.push(newReleases[i].name);
-    newReleaseHref.push(newReleases[i].href);
+    newReleaseHref.push(newReleases[i].external_urls.spotify);
     newReleaseArtistName.push(newReleases[i].artists[0].name);
   }
   res.locals.newReleaseArtistName = newReleaseArtistName;
