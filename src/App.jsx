@@ -1,15 +1,15 @@
 export default function App() {
   return (
     <>
-      <div className="background h-screen pt-20">
-        <div className="bg-slate-400  bg-opacity-70 py-10 mx-96 rounded-3xl">
-          <div className="flex justify-center items-center gap-4 mb-[-20px]">
+      <div className="background h-screen pt-20 justify-center flex">
+        <div className="bg-slate-400  bg-opacity-70 py-10 lg:w-[50%] h-[50%]  rounded-3xl flex flex-col justify-center items-center">
+          <div className="gap-4 mb-[-20px] 2xl:flex 2xl:items-center">
             <i className="fa-solid fa-headphones fa-xl"></i>
             <h1 className="font-[sans]">Rhythmic Retreat</h1>
           </div>
 
           <div className="">
-            <p className="font-[play] mb-4">
+            <p className="font-[play] mb-4 px-4">
               We use Spotify to give you music suggestions, <br /> show your top
               artists, and more!
             </p>

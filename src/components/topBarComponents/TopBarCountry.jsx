@@ -31,11 +31,7 @@ const TopBarCountry = ({setCountry, country, view}) => {
               .filter((el) => {
                 const searchTerm = inputCountry.toLowerCase();
                 const country = el.name.toLowerCase();
-                return (
-                  searchTerm &&
-                  country.startsWith(searchTerm) &&
-                  searchTerm !== country
-                );
+                return searchTerm && country.startsWith(searchTerm);
               })
               .slice(0, 5)
               .map((el) => (
@@ -44,7 +40,8 @@ const TopBarCountry = ({setCountry, country, view}) => {
                   onClick={() => {
                     setInputCountry(el.name),
                       setCountry(countryCodes[el.name]),
-                      console.log(country);
+                      setInputCountry('');
+                    console.log(country);
                   }}
                   key={el.name}>
                   {el.name}
