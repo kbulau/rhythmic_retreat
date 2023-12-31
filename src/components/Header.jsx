@@ -15,12 +15,12 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="flex justify-between h-16 items-center border-slate-600 mx-14 mb-6">
+    <header className="flex justify-between h-16 items-center border-slate-600 mx-14 mb-6 main_header">
       <div className="flex text-slate-400">Hello {user}</div>
       <div className="flex items-center gap-8 text-slate-400">
-        <div className="">
+        {/* <div className="">
           <i className="fa-solid fa-bell fa-sm"></i>
-        </div>
+        </div> */}
 
         <img src={profilePic} className="object-cover rounded-full h-10" />
       </div>

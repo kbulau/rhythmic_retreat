@@ -2,6 +2,7 @@ const TopBarLength = ({setLengthQuery, view}) => {
   const options = {
     topTracks: 'Top Tracks',
     topArtists: 'Top Artists',
+    topGenres: 'Top Genres',
   };
   const handleSelectChange = (selectedValue) => {
     switch (selectedValue) {

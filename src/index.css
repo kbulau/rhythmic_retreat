@@ -46,8 +46,15 @@ body {
   background-position: center;
 }
 
+a {
+  text-decoration: none;
+}
+
 header {
   border-bottom: solid 2px;
+}
+
+.home_header {
 }
 
 .sidebar [class*='fa-'] {

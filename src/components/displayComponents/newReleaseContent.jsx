@@ -5,49 +5,53 @@ const NewReleaseContent = ({newReleaseCountry}) => {
   const [newReleaseAlbums, setNewReleaseAlbums] = useState([]);
   const [newReleaseImgs, setNewReleaseImgs] = useState([]);
   const [newReleaseHrefs, setNewReleaseHrefs] = useState([]);
+  const [error, setError] = useState(null);
 
   const newReleaseCache = useRef(new Map());
 
   // // // can get new releases for a country,
   useEffect(() => {
-    console.log('inside useEffect');
-    // Check if newReleaseCountry is provided and not an empty string before fetching data
-    if (!newReleaseCountry || newReleaseCountry === '') {
-      return; // Do not fetch data if newReleaseCountry is not provided or is an empty string
-    }
+    const fetchData = async () => {
+      try {
+        // Check if data is in the cache for the specific newReleaseCountry
+        if (newReleaseCache.current.has(newReleaseCountry)) {
+          console.log(`i'm in the cache`);
 
-    // Check if data is in the cache for the specific newReleaseCountry
-    if (newReleaseCache.current.has(newReleaseCountry)) {
-      console.log(`i'm in the cache`);
+          const cachedData = newReleaseCache.current.get(newReleaseCountry);
+          setNewReleaseAlbums(cachedData.newReleaseAlbums);
+          setNewReleaseArtists(cachedData.newReleaseArtists);
+          setNewReleaseImgs(cachedData.newReleaseImgs);
+          setNewReleaseHrefs(cachedData.newReleaseHrefs);
+        } else {
+          const response = await fetch(
+            `/api/newReleases?newReleaseCountry=${encodeURIComponent(
+              newReleaseCountry
+            )}`
+          );
 
-      const cachedData = newReleaseCache.current.get(newReleaseCountry);
-      setNewReleaseAlbums(cachedData.newReleaseAlbums);
-      setNewReleaseArtists(cachedData.newReleaseArtists);
-      setNewReleaseImgs(cachedData.newReleaseImgs);
-      setNewReleaseHrefs(cachedData.newReleaseHrefs);
-    } else {
-      // If not in the cache, fetch data from the API
-      fetch(
-        `/api/newReleases?newReleaseCountry=${encodeURIComponent(
-          newReleaseCountry
-        )}`
-      ).then((res) => {
-        res.json().then((apiData) => {
-          // Save data to the cache
+          if (!response.ok) {
+            throw new Error('Country not supported by Spotify');
+          }
+
+          const apiData = await response.json();
           newReleaseCache.current.set(newReleaseCountry, {
             newReleaseAlbums: apiData.newReleaseAlbums,
             newReleaseArtists: apiData.newReleaseArtistName,
             newReleaseImgs: apiData.newReleaseImgs,
             newReleaseHrefs: apiData.newReleaseHref,
           });
-          // Update state with fetched data
           setNewReleaseAlbums(apiData.newReleaseAlbums);
           setNewReleaseArtists(apiData.newReleaseArtistName);
           setNewReleaseImgs(apiData.newReleaseImgs);
           setNewReleaseHrefs(apiData.newReleaseHref);
-        });
-      });
-    }
+          setError(null); // Clear the error state if the request is successful
+        }
+      } catch (error) {
+        setError(error.message); // Set the error state with the error message
+      }
+    };
+
+    fetchData();
   }, [newReleaseCountry]);
 
   const newReleaseArray = [];
@@ -63,6 +67,9 @@ const NewReleaseContent = ({newReleaseCountry}) => {
         </div>
       </div>
     );
+  }
+  if (error) {
+    return <div>This country isn&apos;t supported by Spotify: {error}</div>;
   }
 
   return <>{newReleaseArray}</>;

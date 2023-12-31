@@ -4,6 +4,7 @@ const FeatPlaylistContent = ({featPlaylistCountry}) => {
   const [featPlaylistName, setFeatPlaylistName] = useState([]);
   const [featPlaylistImg, setFeatPlaylistImg] = useState([]);
   const [featPlaylistHref, setFeatPlaylistHref] = useState([]);
+  const [error, setError] = useState(null); // New state variable for error handling
 
   const featPlaylistCache = useRef(new Map());
 
@@ -24,25 +25,31 @@ const FeatPlaylistContent = ({featPlaylistCountry}) => {
       setFeatPlaylistImg(cachedData.featPlaylistImg);
       setFeatPlaylistName(cachedData.featPlaylistName);
     } else {
-      // If not in the cache, fetch data from the API
       fetch(
         `/api/featuredPlaylists?featPlaylistCountry=${encodeURIComponent(
           featPlaylistCountry
         )}`
-      ).then((res) => {
-        res.json().then((apiData) => {
-          // Save data to the cache
+      )
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('Country not supported by Spotify'); // Throw an error for unsupported country
+          }
+          return res.json();
+        })
+        .then((apiData) => {
           featPlaylistCache.current.set(featPlaylistCountry, {
             featPlaylistHref: apiData.featPlaylistHref,
             featPlaylistImg: apiData.featPlaylistImg,
             featPlaylistName: apiData.featPlaylistName,
           });
-          // Update state with fetched data
           setFeatPlaylistHref(apiData.featPlaylistHref);
           setFeatPlaylistImg(apiData.featPlaylistImg);
           setFeatPlaylistName(apiData.featPlaylistName);
+          setError(null); // Clear the error state if the request is successful
+        })
+        .catch((error) => {
+          setError(error.message); // Set the error state with the error message
         });
-      });
     }
   }, [featPlaylistCountry]);
 
@@ -59,7 +66,9 @@ const FeatPlaylistContent = ({featPlaylistCountry}) => {
       </div>
     );
   }
-
+  if (error) {
+    return <div>This country isn&apos;t supported by Spotify: {error}</div>;
+  }
   return <>{featPlaylistArray}</>;
 };
 

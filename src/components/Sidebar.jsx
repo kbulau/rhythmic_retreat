@@ -34,12 +34,13 @@ const Sidebar = ({setView}) => {
         Artist Recs
       </div>
 
-      <div
+      {/* may put back in later, but these show up in featured playlists already */}
+      {/* <div
         className="text-slate-500 sidebarOptions hover:text-green-600"
         id="hotHits"
         onClick={() => setView('hotHits')}>
         Hot Hits
-      </div>
+      </div> */}
       <div
         className="text-slate-500 text-s sidebarOptions hover:text-green-600"
         id="newReleases"

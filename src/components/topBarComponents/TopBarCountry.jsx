@@ -1,11 +1,245 @@
-import {iso31661} from 'iso-3166';
 import {useState} from 'react';
-const TopBarCountry = ({setCountry, country, view}) => {
+const TopBarCountry = ({setCountry, view}) => {
   const [inputCountry, setInputCountry] = useState('');
-  const countryCodes = {};
-  iso31661.forEach((el) => {
-    countryCodes[el.name] = el.alpha2;
-  });
+  const countryCodes = {
+    Algeria: 'DZ',
+    Angola: 'AO',
+    Benin: 'BJ',
+    Botswana: 'BW',
+    'Burkina Faso': 'BF',
+    Burundi: 'BI',
+    Cameroon: 'CM',
+    'Cape Verde': 'CV',
+    Chad: 'TD',
+    Comoros: 'KM',
+    "Côte d'Ivoire": 'CI',
+    'Democratic Republic of the Congo': 'CD',
+    Djibouti: 'DJ',
+    Egypt: 'EG',
+    Ethiopia: 'ET',
+    'Equatorial Guinea': 'GQ',
+    Eswatini: 'SZ',
+    Gabon: 'GA',
+    Gambia: 'GM',
+    Ghana: 'GH',
+    Guinea: 'GN',
+    'Guinea-Bissau': 'GW',
+    Kenya: 'KE',
+    Lesotho: 'LS',
+    Liberia: 'LR',
+    Libya: 'LY',
+    Madagascar: 'MG',
+    Malawi: 'MW',
+    Mali: 'ML',
+    Mauritania: 'MR',
+    Mauritius: 'MU',
+    Morocco: 'MA',
+    Mozambique: 'MZ',
+    Namibia: 'NA',
+    Niger: 'NE',
+    Nigeria: 'NG',
+    'Republic of the Congo': 'CG',
+    Rwanda: 'RW',
+    'São Tomé and Príncipe': 'ST',
+    Senegal: 'SN',
+    Seychelles: 'SC',
+    'Sierra Leone': 'SL',
+    'South Africa': 'ZA',
+    Tanzania: 'TZ',
+    Togo: 'TG',
+    Tunisia: 'TN',
+    Uganda: 'UG',
+    Zambia: 'ZM',
+    Zimbabwe: 'ZW',
+    Armenia: 'AM',
+    Azerbaijan: 'AZ',
+    Bahrain: 'BH',
+    Bangladesh: 'BD',
+    Bhutan: 'BT',
+    'Brunei Darussalam': 'BN',
+    Cambodia: 'KH',
+    Georgia: 'GE',
+    'Hong Kong': 'HK',
+    India: 'IN',
+    Indonesia: 'ID',
+    Iraq: 'IQ',
+    Israel: 'IL',
+    Japan: 'JP',
+    Jordan: 'JO',
+    Kuwait: 'KW',
+    Kyrgyzstan: 'KG',
+    "Lao People's Democratic Republic": 'LA',
+    Lebanon: 'LB',
+    Macao: 'MO',
+    Malaysia: 'MY',
+    Maldives: 'MV',
+    Mongolia: 'MN',
+    Nepal: 'NP',
+    Oman: 'OM',
+    Pakistan: 'PK',
+    Palestine: 'PS',
+    Philippines: 'PH',
+    Qatar: 'QA',
+    'Saudi Arabia': 'SA',
+    Singapore: 'SG',
+    'South Korea': 'KR',
+    'Sri Lanka': 'LK',
+    Taiwan: 'TW',
+    Tajikistan: 'TJ',
+    Thailand: 'TH',
+    'Timor-Leste': 'TL',
+    'United Arab Emirates': 'AE',
+    Uzbekistan: 'UZ',
+    Vietnam: 'VN',
+    Åland: 'AX',
+    Albania: 'AL',
+    Andorra: 'AD',
+    Anguilla: 'AI',
+    Ascension: 'AC',
+    Austria: 'AT',
+    Azores: 'PT-20',
+    'Balearic Islands': 'ES-IB',
+    Belarus: 'BY',
+    Belgium: 'BE',
+    Bermuda: 'BM',
+    Bosnia: 'BA',
+    'British Virgin Islands': 'VG',
+    Bulgaria: 'BG',
+    'Canary Islands': 'ES-CN',
+    'Cayman Islands': 'KY',
+    Ceuta: 'ES-CE',
+    Croatia: 'HR',
+    Cyprus: 'CY',
+    'Czech Republic': 'CZ',
+    Denmark: 'DK',
+    Estonia: 'EE',
+    'Falkland Islands': 'FK',
+    'Faroe Islands': 'FO',
+    Finland: 'FI',
+    France: 'FR',
+    'French Guiana': 'GF',
+    'French Polynesia': 'PF',
+    Germany: 'DE',
+    Gibraltar: 'GI',
+    Greece: 'GR',
+    Greenland: 'GL',
+    Guadeloupe: 'GP',
+    Guernsey: 'GG',
+    Hungary: 'HU',
+    Iceland: 'IS',
+    Ireland: 'IE',
+    'Isle of Man': 'IM',
+    Italy: 'IT',
+    Jersey: 'JE',
+    Kazakhstan: 'KZ',
+    Kosovo: 'XK',
+    Latvia: 'LV',
+    Liechtenstein: 'LI',
+    Lithuania: 'LT',
+    Luxembourg: 'LU',
+    Madeira: 'PT-30',
+    Malta: 'MT',
+    Martinique: 'MQ',
+    Mayotte: 'YT',
+    Melilla: 'ES-ML',
+    Moldova: 'MD',
+    Monaco: 'MC',
+    Montenegro: 'ME',
+    Montserrat: 'MS',
+    Netherlands: 'NL',
+    'New Caledonia': 'NC',
+    'North Macedonia': 'MK',
+    Norway: 'NO',
+    'Pitcairn Islands': 'PN',
+    Poland: 'PL',
+    Portugal: 'PT',
+    Romania: 'RO',
+    Réunion: 'RE',
+    'Saint Barthélemy': 'BL',
+    'Saint Helena': 'SH',
+    'Saint Martin': 'MF',
+    'Saint Pierre and Miquelon': 'PM',
+    'San Marino': 'SM',
+    Serbia: 'RS',
+    Slovakia: 'SK',
+    Slovenia: 'SI',
+    Spain: 'ES',
+    Svalbard: 'SJ',
+    Sweden: 'SE',
+    Switzerland: 'CH',
+    'Tristan da Cunha': 'TA',
+    Turkey: 'TR',
+    'Turks and Caicos Islands': 'TC',
+    Ukraine: 'UA',
+    'United Kingdom': 'GB',
+    'Wallis and Futuna': 'WF',
+    'American Samoa': 'AS',
+    'Antigua and Barbuda': 'AG',
+    Bahamas: 'BS',
+    Barbados: 'BB',
+    Belize: 'BZ',
+    Canada: 'CA',
+    'Costa Rica': 'CR',
+    Curaçao: 'CW',
+    Dominica: 'DM',
+    'Dominican Republic': 'DO',
+    'El Salvador': 'SV',
+    Grenada: 'GD',
+    Guam: 'GU',
+    Guatemala: 'GT',
+    Haiti: 'HT',
+    Honduras: 'HN',
+    Jamaica: 'JM',
+    Mexico: 'MX',
+    Nicaragua: 'NI',
+    'Northern Mariana Islands': 'MP',
+    Panama: 'PA',
+    'Puerto Rico': 'PR',
+    'St. Kitts and Nevis': 'KN',
+    'St. Lucia': 'LC',
+    'St. Vincent and the Grenadines': 'VC',
+    'Trinidad and Tobago': 'TT',
+    'United States': 'US',
+    'United States Minor Outlying Islands': 'UM',
+    'United States Virgin Islands': 'VI',
+    Argentina: 'AR',
+    Aruba: 'AW',
+    Bolivia: 'BO',
+    Brazil: 'BR',
+    Chile: 'CL',
+    Colombia: 'CO',
+    Ecuador: 'EC',
+    Guyana: 'GY',
+    Paraguay: 'PY',
+    Peru: 'PE',
+    'Sint Maarten': 'SX',
+    Suriname: 'SR',
+    Uruguay: 'UY',
+    Venezuela: 'VE',
+    Australia: 'AU',
+    Bonaire: 'BQ',
+    'Christmas Island': 'CX',
+    'Cocos (Keeling) Islands': 'CC',
+    'Cook Islands': 'CK',
+    Fiji: 'FJ',
+    Kiribati: 'KI',
+    'Marshall Islands': 'MH',
+    Micronesia: 'FM',
+    Nauru: 'NR',
+    'New Zealand': 'NZ',
+    Niue: 'NU',
+    'Norfolk Island': 'NF',
+    Palau: 'PW',
+    'Papua New Guinea': 'PG',
+    Saba: 'BQ-SE',
+    Samoa: 'WS',
+    'Sint Eustatius': 'BQ-SE',
+    'Solomon Islands': 'SB',
+    Tokelau: 'TK',
+    Tonga: 'TO',
+    Tuvalu: 'TV',
+    Vanuatu: 'VU',
+  };
 
   const options = {
     hotHits: 'Hot Hits',
@@ -14,37 +248,39 @@ const TopBarCountry = ({setCountry, country, view}) => {
   };
 
   return (
-    <div className="mx-14 p-2 bg-blue-900 rounded-t-3xl border-b-gray-500 border-solid border-t-0 border-r-0 border-l-0  text-start px-10 ">
+    <div className="mx-14 p-2 bg-blue-900 rounded-t-3xl border-b-gray-500 border-solid border-t-0 border-r-0 border-l-0 text-start px-10">
       <div className="text-center text-white ">{options[view]}</div>
       <div className="flex flex-col items-center justify-center">
-        <div className=" relative">
+        <div className="relative">
           <div className="">
             <input
               type="text"
               value={inputCountry}
               placeholder="Enter Country"
               onChange={(e) => setInputCountry(e.target.value)}
-              className="w-[15vw]"></input>
+              className="w-[15vw]"
+            />
           </div>
           <div className="mt-[-3px] absolute z-50 top-full left-0 bg-white border border-gray-300 w-[15vw]">
-            {iso31661
-              .filter((el) => {
+            {Object.keys(countryCodes)
+              .filter((country) => {
                 const searchTerm = inputCountry.toLowerCase();
-                const country = el.name.toLowerCase();
-                return searchTerm && country.startsWith(searchTerm);
+                return (
+                  searchTerm && country.toLowerCase().startsWith(searchTerm)
+                );
               })
               .slice(0, 5)
-              .map((el) => (
+              .map((country) => (
                 <div
                   className="p-2 text-center text-base cursor-pointer hover:bg-slate-300"
                   onClick={() => {
-                    setInputCountry(el.name),
-                      setCountry(countryCodes[el.name]),
-                      setInputCountry('');
+                    setInputCountry(country);
+                    setCountry(countryCodes[country]);
+                    setInputCountry('');
                     console.log(country);
                   }}
-                  key={el.name}>
-                  {el.name}
+                  key={country}>
+                  {country}
                 </div>
               ))}
           </div>

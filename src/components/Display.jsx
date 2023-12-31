@@ -10,11 +10,10 @@ import TopBarCountry from './topBarComponents/TopBarCountry';
 import TopBarLength from './topBarComponents/TopBarLength';
 import TopBarArtists from './topBarComponents/TopBarArtists';
 import TopBarSongRecs from './topBarComponents/TopBarSongRecs';
+import TopGenreContent from './displayComponents/TopGenreContent';
 
 const Display = ({view}) => {
   const [lengthQuery, setLengthQuery] = useState('short_term');
-  // const [topGenres, setTopGenres] = useState([]);
-  // const [topGenreData, setTopGenreData] = useState([]);
 
   const [newReleaseCountry, setNewReleaseCountry] = useState('US');
   const [featPlaylistCountry, setFeatPlaylistCountry] = useState('US');
@@ -68,6 +67,13 @@ const Display = ({view}) => {
         view={view}
       />
     ),
+    topGenres: (
+      <TopBarLength
+        lengthQuery={lengthQuery}
+        setLengthQuery={setLengthQuery}
+        view={view}
+      />
+    ),
     artistRecs: <TopBarArtists setArtistRecID={setArtistRecID} />,
     songRecs: <TopBarSongRecs setSongRecID={setSongRecID} />,
   };
@@ -75,16 +81,15 @@ const Display = ({view}) => {
     <>
       {topBarComponents[view]}
       <div className=" mx-14 bg-blue-900 home_body overflow-auto">
-        <div className="text-start pt-10 px-10 flex flex-wrap justify-around gap-10">
+        <div className="text-start pt-10 px-10 flex flex-wrap h-[100%] justify-around gap-10">
           {view === 'topTracks' && (
             <TopTrackContent lengthQuery={lengthQuery} />
           )}
           {view === 'topArtists' && (
-            <TopArtistContent
-              lengthQuery={lengthQuery}
-              // setTopGenreData={setTopGenreData}
-              // setTopGenres={setTopGenres}
-            />
+            <TopArtistContent lengthQuery={lengthQuery} />
+          )}
+          {view === 'topGenres' && (
+            <TopGenreContent lengthQuery={lengthQuery} />
           )}
           {view === 'featPlaylists' && (
             <FeatPlaylistContent featPlaylistCountry={featPlaylistCountry} />

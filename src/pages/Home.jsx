@@ -1,7 +1,7 @@
 import {useState} from 'react';
-import Header from './components/Header.jsx';
-import Sidebar from './components/Sidebar.jsx';
-import Display from './components/Display.jsx';
+import Header from '../components/Header.jsx';
+import Sidebar from '../components/Sidebar.jsx';
+import Display from '../components/Display.jsx';
 
 export default function Home() {
   const [view, setView] = useState('topTracks');

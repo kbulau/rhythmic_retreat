@@ -25,7 +25,7 @@ const TopBarSongRecs = ({setSongRecID}) => {
 
   return (
     <div className="mx-14 p-2 bg-blue-900 rounded-t-3xl border-b-gray-500 border-solid border-t-0 border-r-0 border-l-0  text-start px-10 ">
-      <div className="text-center text-white ">Song Recs</div>
+      <div className="text-center text-white pb-2">Song Recs</div>
       <Form className="flex align-center items-center justify-center">
         <input
           type="text"

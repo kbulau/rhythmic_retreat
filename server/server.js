@@ -170,7 +170,6 @@ app.get('/api/refresh_token', async (req, res, next) => {
 const accTokenRefresh = async (req, res, next) => {
   if (req.cookies.accToken) return next();
   else if (req.cookies.refToken && req.cookies.refToken !== undefined) {
-    console.log(req.cookies.refToken);
     const newToken = await fetch('http://localhost:5173/api/refresh_token', {
       headers: {
         Cookie: `refToken=${req.cookies.refToken}`,
@@ -280,70 +279,107 @@ app.get('/api/topTracks', accTokenRefresh, async (req, res) => {
 });
 
 app.get('/api/featuredPlaylists', accTokenRefresh, async (req, res) => {
-  const userOptions = {
-    headers: {
-      Authorization: 'Bearer ' + req.cookies.accToken,
-    },
-  };
-  const featPlaylistCountry = req.query.featPlaylistCountry;
-  const response = await fetch(
-    `https://api.spotify.com/v1/browse/featured-playlists?country=${encodeURIComponent(
-      featPlaylistCountry
-    )}&limit=10`,
-    userOptions
-  );
-  const apiData = await response.json();
-  const featuredPlaylists = apiData.playlists.items;
-  const featPlaylistName = [];
-  const featPlaylistImg = [];
-  const featPlaylistHref = [];
-  for (let i = 0; i < featuredPlaylists.length; i++) {
-    featPlaylistName.push(featuredPlaylists[i].name);
-    featPlaylistImg.push(featuredPlaylists[i].images[0].url);
-    featPlaylistHref.push(featuredPlaylists[i].external_urls.spotify);
-  }
-  res.locals.featPlaylistName = featPlaylistName;
-  res.locals.featPlaylistImg = featPlaylistImg;
-  res.locals.featPlaylistHref = featPlaylistHref;
-  // console.log(res.locals);
+  try {
+    const userOptions = {
+      headers: {
+        Authorization: 'Bearer ' + req.cookies.accToken,
+      },
+    };
+    const featPlaylistCountry = req.query.featPlaylistCountry;
+    const response = await fetch(
+      `https://api.spotify.com/v1/browse/featured-playlists?country=${encodeURIComponent(
+        featPlaylistCountry
+      )}&limit=10`,
+      userOptions
+    );
 
-  return res.status(200).json(res.locals);
+    if (!response.ok) {
+      // If the response status is not ok, throw an error with a meaningful message
+      throw new Error(
+        `Failed to fetch featured playlists. Status: ${response.status}`
+      );
+    }
+
+    const apiData = await response.json();
+    const featuredPlaylists = apiData.playlists.items;
+    const featPlaylistName = [];
+    const featPlaylistImg = [];
+    const featPlaylistHref = [];
+
+    for (let i = 0; i < featuredPlaylists.length; i++) {
+      featPlaylistName.push(featuredPlaylists[i].name);
+      featPlaylistImg.push(featuredPlaylists[i].images[0].url);
+      featPlaylistHref.push(featuredPlaylists[i].external_urls.spotify);
+    }
+
+    res.locals.featPlaylistName = featPlaylistName;
+    res.locals.featPlaylistImg = featPlaylistImg;
+    res.locals.featPlaylistHref = featPlaylistHref;
+
+    return res.status(200).json(res.locals);
+  } catch (error) {
+    // Log the error for debugging purposes
+    console.error('Error in featuredPlaylists API:', error);
+
+    // Return an error response with a meaningful message and status code
+    return res.status(500).json({error: 'Internal Server Error'});
+  }
 });
 
 app.get('/api/newReleases', accTokenRefresh, async (req, res) => {
-  const userOptions = {
-    headers: {
-      Authorization: 'Bearer ' + req.cookies.accToken,
-    },
-  };
-  const newReleaseCountry = req.query.newReleaseCountry;
+  try {
+    const userOptions = {
+      headers: {
+        Authorization: 'Bearer ' + req.cookies.accToken,
+      },
+    };
+    const newReleaseCountry = req.query.newReleaseCountry;
 
-  const response = await fetch(
-    `https://api.spotify.com/v1/browse/new-releases?country=${encodeURIComponent(
-      newReleaseCountry
-    )}&limit=10`,
-    userOptions
-  );
-  const apiData = await response.json();
-  console.log(apiData.albums.items);
-  const newReleases = apiData.albums.items;
-  const newReleaseImgs = [];
-  const newReleaseAlbums = [];
-  const newReleaseHref = [];
-  const newReleaseArtistName = [];
-  for (let i = 0; i < newReleases.length; i++) {
-    newReleaseImgs.push(newReleases[i].images[0].url);
-    newReleaseAlbums.push(newReleases[i].name);
-    newReleaseHref.push(newReleases[i].external_urls.spotify);
-    newReleaseArtistName.push(newReleases[i].artists[0].name);
+    const response = await fetch(
+      `https://api.spotify.com/v1/browse/new-releases?country=${encodeURIComponent(
+        newReleaseCountry
+      )}&limit=10`,
+      userOptions
+    );
+
+    if (!response.ok) {
+      // If the response status is not ok, log the error and handle it gracefully
+      const errorBody = await response.json(); // Parse the error response body
+      console.error('Error in newReleases API:', response.status, errorBody);
+
+      // Return an error response with a meaningful message and status code
+      return res.status(response.status).json({
+        error: `Failed to fetch new releases. ${JSON.stringify(errorBody)}`,
+      });
+    }
+
+    const apiData = await response.json();
+    const newReleases = apiData.albums.items;
+    const newReleaseImgs = [];
+    const newReleaseAlbums = [];
+    const newReleaseHref = [];
+    const newReleaseArtistName = [];
+
+    for (let i = 0; i < newReleases.length; i++) {
+      newReleaseImgs.push(newReleases[i].images[0].url);
+      newReleaseAlbums.push(newReleases[i].name);
+      newReleaseHref.push(newReleases[i].external_urls.spotify);
+      newReleaseArtistName.push(newReleases[i].artists[0].name);
+    }
+
+    res.locals.newReleaseArtistName = newReleaseArtistName;
+    res.locals.newReleaseAlbums = newReleaseAlbums;
+    res.locals.newReleaseImgs = newReleaseImgs;
+    res.locals.newReleaseHref = newReleaseHref;
+
+    res.status(200).json(res.locals);
+  } catch (error) {
+    // Log the error for debugging purposes
+    console.error('Error in newReleases API:', error);
+
+    // Return an error response with a meaningful message and status code
+    return res.status(500).json({error: 'Internal Server Error'});
   }
-  res.locals.newReleaseArtistName = newReleaseArtistName;
-  res.locals.newReleaseAlbums = newReleaseAlbums;
-  res.locals.newReleaseImgs = newReleaseImgs;
-  res.locals.newReleaseHref = newReleaseHref;
-
-  // console.log(res.locals);
-  res.status(200).json(res.locals);
 });
 
 app.get('/api/hotHits', accTokenRefresh, async (req, res) => {
@@ -376,7 +412,6 @@ app.get('/api/hotHits', accTokenRefresh, async (req, res) => {
   res.locals.hotHitAlbumImgs = hotHitAlbumImgs;
   res.locals.hotHitTrackName = hotHitTrackName;
   res.locals.hotHitHref = hotHitHref;
-  console.log(res.locals);
   // console.log(res.locals);
   res.status(200).json(res.locals);
 });
@@ -453,7 +488,7 @@ app.get('/api/findArtist', accTokenRefresh, async (req, res) => {
     },
   };
   const queryName = req.query.artist;
-  console.log(req.query.artist);
+  // console.log(req.query.artist);
   const response = await fetch(
     `https://api.spotify.com/v1/search?q=${encodeURIComponent(
       queryName
@@ -498,7 +533,6 @@ app.get('/api/findTrack', async (req, res) => {
   );
   const apiData = await response.json();
   const songID = apiData.tracks.items[0].id;
-  console.log(songID);
   res.locals.songID = songID;
   res.status(200).json(res.locals);
 });

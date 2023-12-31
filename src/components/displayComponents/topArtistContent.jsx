@@ -4,8 +4,6 @@ const TopArtistContent = ({lengthQuery}) => {
   const [topArtists, setTopArtists] = useState([]);
   const [topArtistImg, setTopArtistImg] = useState([]);
 
-  // const topGenresCache = useRef(new Map());
-
   const topArtistsCache = useRef(new Map());
 
   useEffect(() => {
@@ -16,8 +14,6 @@ const TopArtistContent = ({lengthQuery}) => {
       const cachedData = topArtistsCache.current.get(lengthQuery);
       setTopArtistImg(cachedData.artistImages);
       setTopArtists(cachedData.artistName);
-      // setTopGenres(cachedData.topGenres);
-      // setTopGenreData(cachedData.topGenreDataSorted);
     } else {
       // If not in the cache, fetch data from the API
       fetch(
@@ -29,18 +25,16 @@ const TopArtistContent = ({lengthQuery}) => {
           topArtistsCache.current.set(lengthQuery, {
             artistImages: apiData.artistImages,
             artistName: apiData.artistName,
-            topGenres: apiData.topGenres,
-            topGenreDataSorted: apiData.topGenreDataSorted,
           });
+
           // Update state with fetched data
           setTopArtistImg(apiData.artistImages);
           setTopArtists(apiData.artistName);
-          // setTopGenres(apiData.topGenres);
-          // setTopGenreData(apiData.topGenreDataSorted);
         });
       });
     }
   }, [lengthQuery]);
+
   const topArtistArray = [];
   for (let i = 0; i < topArtists.length; i++) {
     topArtistArray.push(
