@@ -5,7 +5,7 @@
 
 Out of all my projects for learning, portfolio projects, etc this is the one I enjoyed the most and still get to use everyday.
 
-I'm still updating UI/UX and may deploy it later for everyone to use on the internet, but I would have to get it switched out of development mode by the Spotify Web API; However, it's fully functional and you can still use it today!
+I'm still updating the UI/UX and may deploy it later for everyone to use on the internet, but I would have to get it switched out of development mode by the Spotify Web API; However, it's fully functional and you can still use it today!
 
 <h3>Want Features Added or to Contribute?</h3>
 <p>If you want to contribute fork the repo and make a pull request with any changes and i'll review it asap</p>
