@@ -4,7 +4,7 @@ This project was created for my friends and anyone else who enjoys music as much
 
 Out of all my projects for learning, portfolio projects, this is the one I enjoyed the most and still get to use everyday.
 
-I'm still updating UI/UX and may deploy it later for everyone to use on the internet, but I would have to get it switched out of development mode by the Spotify Web API; However, you can still use it today!
+I'm still updating UI/UX and may deploy it later for everyone to use on the internet, but I would have to get it switched out of development mode by the Spotify Web API; However, it's fully functional and you can still use it today!
 
 
 ## How To Get Started
