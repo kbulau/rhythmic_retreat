@@ -1,6 +1,6 @@
 # Hello! 👋
 
-This project was created for my friends and anyone else who enjoys music as much as we do
+This project was created for my friends and **anyone who enjoys music** as much as we do
 
 Out of all my projects for learning, portfolio projects, this is the one I enjoyed the most and still get to use everyday.
 
